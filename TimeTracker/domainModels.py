@@ -1,5 +1,5 @@
 from dataclasses import dataclass, field
-from datetime import datetime
+from datetime import datetime, date
 from datetime import timedelta
 
 
@@ -14,6 +14,13 @@ class TimeRecord:
         self.duration = timedelta(0)
         if self.end > self.start:
             self.duration = self.end - self.start
-            
+
             if self.pause.total_seconds() > 0:
                 self.duration = self.duration - self.pause
+
+
+@dataclass
+class DaySummary:
+    day: date
+    duration: timedelta
+
