@@ -1,6 +1,6 @@
 from datetime import datetime, timedelta
 
-from domain import TimeRecord
+from domainModels import TimeRecord
 
 record = TimeRecord(
     start=datetime(2023, 4, 23, 8, 12),
@@ -9,3 +9,4 @@ record = TimeRecord(
 record.update_duration()
 print(record)
 print(record.duration.total_seconds() / 60 / 60)
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           

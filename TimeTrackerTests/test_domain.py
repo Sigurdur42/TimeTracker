@@ -1,4 +1,4 @@
-from TimeTracker.domain import *
+from TimeTracker.domainModels import *
 import unittest
 
 
