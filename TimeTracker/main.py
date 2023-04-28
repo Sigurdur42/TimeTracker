@@ -1,6 +1,11 @@
-from datetime import date, time
+from datetime import datetime, timedelta
+
 from domain import TimeRecord
 
-record = TimeRecord(date(2023, 4,23), time(8, 12), time(18, 12), 30)
-record.updateDuration()
+record = TimeRecord(
+    start=datetime(2023, 4, 23, 8, 12),
+    end=datetime(2023, 4, 23, 18, 12),
+    pause=timedelta(minutes=30))
+record.update_duration()
 print(record)
+print(record.duration.total_seconds() / 60 / 60)
