@@ -1,8 +1,10 @@
 using System;
+using System.Diagnostics;
 
 namespace TimeTracker.Domain;
 
-public class TimeRecord
+[DebuggerDisplay("{Start}->{End} ({Pause})")]
+public record TimeRecord
 {
     public DateTime Start { get; set; }
     public TimeOnly? End { get; set; }
