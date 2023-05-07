@@ -1,9 +1,71 @@
-<Window xmlns="https://github.com/avaloniaui"
-        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
-        x:Class="TimeTracker.MainWindow"
-        Title="{Binding Title}">
-    
+<Window
+    Title="{Binding Title}"
+    d:DesignHeight="450"
+    d:DesignWidth="800"
+    mc:Ignorable="d"
+    x:Class="TimeTracker.MainWindow"
+    xmlns="https://github.com/avaloniaui"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:viewModels="clr-namespace:TimeTracker.ViewModels"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+
+    <Grid ColumnDefinitions="Auto, *" RowDefinitions="Auto, Auto">
+
+        <DataGrid
+            AutoGenerateColumns="true"
+            CanUserReorderColumns="False"
+            Grid.Column="0"
+            Grid.Row="1"
+            IsReadOnly="True"
+            Items="{Binding TimeRecords}"
+            SelectedItem="{Binding SelectedRecord}"
+            SelectionMode="Single" />
+
+        <Border
+            BorderBrush="Black"
+            BorderThickness="1"
+            Grid.Column="1"
+            Grid.Row="1"
+            Padding="2">
+            <Grid ColumnDefinitions="Auto, Auto" RowDefinitions="Auto, Auto, Auto, Auto, Auto">
+                <Label>Date</Label>
+                <DatePicker
+                    Grid.Column="1"
+                    Grid.Row="0"
+                    SelectedDate="{Binding SelectedRecord.Day}" />
+
+                <Label Grid.Column="0" Grid.Row="1">Start</Label>
+                <TimePicker
+                    Grid.Column="1"
+                    Grid.Row="1"
+                    SelectedTime="{Binding SelectedRecord.Start}" />
+
+                <Label Grid.Column="0" Grid.Row="2">End</Label>
+                <TimePicker
+                    Grid.Column="1"
+                    Grid.Row="2"
+                    SelectedTime="{Binding SelectedRecord.End}" />
+
+                <Label Grid.Column="0" Grid.Row="3">Pause (minutes)</Label>
+                <NumericUpDown
+                    Grid.Column="1"
+                    Grid.Row="3"
+                    Value="{Binding SelectedRecord.PauseInMinutes}" />
+
+                <StackPanel
+                    Grid.Column="1"
+                    Grid.Row="4"
+                    Orientation="Horizontal">
+                    <Button Command="{Binding NewItemCommand}">
+                        New
+                    </Button>
+                    <Button>
+                        Delete
+                    </Button>
+                </StackPanel>
+
+            </Grid>
+        </Border>
+    </Grid>
 </Window>

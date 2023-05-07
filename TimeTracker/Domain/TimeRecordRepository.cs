@@ -29,6 +29,11 @@ public class TimeRecordRepository
 
     public IEnumerable<TimeRecord> Deserialize(FileInfo file)
     {
+        if (!file.Exists)
+        {
+            return Array.Empty<TimeRecord>();
+        }
+        
         using var reader = new StreamReader(file.FullName);
         using var csv = new CsvReader(reader, _configuration);
         return csv.GetRecords<TimeRecord>().ToArray();

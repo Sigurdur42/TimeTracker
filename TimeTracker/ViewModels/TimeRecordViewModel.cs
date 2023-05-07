@@ -7,16 +7,16 @@ namespace TimeTracker.ViewModels;
 public partial class TimeRecordViewModel
 {
     [ObservableProperty]
-    private DateOnly _day = DateOnly.MinValue;
+    private DateTimeOffset _day = DateTimeOffset.MinValue;
     
     [ObservableProperty]
-    private TimeOnly _start = TimeOnly.MinValue;
+    private TimeSpan _start = TimeSpan.MinValue;
     
     [ObservableProperty]
-    private TimeOnly _end = TimeOnly.MinValue;
+    private TimeSpan _end = TimeSpan.Zero;
 
     [ObservableProperty]
-    private TimeSpan _pause = TimeSpan.Zero;
+    private int _pauseInMinutes = 0;
     
     [ObservableProperty]
     private TimeSpan _duration = TimeSpan.Zero;
