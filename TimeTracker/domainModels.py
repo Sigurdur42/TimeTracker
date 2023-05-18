@@ -2,7 +2,6 @@ from dataclasses import dataclass, field
 from datetime import datetime, date
 from datetime import timedelta
 
-
 @dataclass
 class TimeRecord:
     start: datetime = field(default=0)
