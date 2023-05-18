@@ -10,5 +10,10 @@
         "tests"
     ],
     "python.testing.pytestEnabled": false,
-    "python.testing.unittestEnabled": true,    
+    "python.testing.unittestEnabled": true,
+    "[python]": {
+        "editor.defaultFormatter": "ms-python.black-formatter"
+    },
+    "python.formatting.provider": "none",
+    
 }
