@@ -1,7 +1,10 @@
 - [ ] Fill this with content
-
+- define csv content
+- convert excel data to csv
+- load csv content from ~/TimeTracker/TimeTrackerData.csv
 
 # todo
+
 - [ ] Add constants for format
 - [ ] Add other csv tests
 - [ ] Add test data
