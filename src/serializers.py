@@ -3,13 +3,14 @@ import csv
 import io
 from datetime import datetime
 from models import TimeRecord
-
+import logging
 
 class TimeRecordSerializer:
     def __init__(self):
         pass
     
     def write_csv_to_file(self, fileName: str, data : List[TimeRecord]):
+        logging.info(f"Writing data to csv file {fileName}")
         content = self.generate_csv(data)
         with open(fileName, "x") as file:
             file.write(content)
@@ -30,6 +31,7 @@ class TimeRecordSerializer:
         return output.getvalue()
     
     def read_from_csv(self, fileName: str) -> List[TimeRecord]:
+        logging.info(f"Reading data from csv file {fileName}")
         with open(fileName, "r") as file:
             lines = file.readlines()
             return self.read_csv_from_lines(lines)
