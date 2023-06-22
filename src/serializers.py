@@ -3,6 +3,7 @@ import csv
 import io
 from datetime import datetime
 from models import TimeRecord
+from pathlib import Path
 import logging
 
 class TimeRecordSerializer:
@@ -31,6 +32,10 @@ class TimeRecordSerializer:
         return output.getvalue()
     
     def read_from_csv(self, fileName: str) -> List[TimeRecord]:
+        path = Path(fileName)
+        if (not path.exists()):
+            return list[TimeRecord]()
+        
         logging.info(f"Reading data from csv file {fileName}")
         with open(fileName, "r") as file:
             lines = file.readlines()

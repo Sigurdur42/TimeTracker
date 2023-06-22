@@ -5,6 +5,7 @@ import os
 from datetime import datetime
 from serializers import TimeRecordSerializer
 import tempfile
+import uuid
 
 class TimeTrackerTests(unittest.TestCase):
     def test_generate_and_read_csv_in_memory(self):
@@ -27,6 +28,14 @@ class TimeTrackerTests(unittest.TestCase):
         readData = writer.read_from_csv(fileName)
         self.__compare_collections(data2Write, readData)
         os.remove(fileName)
+        
+    def test_try_reading_nonexistent_file(self):
+        reader = TimeRecordSerializer()
+        # Ensure that this file does not exist        
+        file_name = os.path.join(tempfile.gettempdir(), str(uuid.uuid4()))
+        
+        read_data = reader.read_from_csv(file_name)      
+        self.assertEqual(0, len(read_data), f"Expected an empty list -> {read_data}")
             
     def __generate_test_data(self) -> List[models.TimeRecord]:
         return [

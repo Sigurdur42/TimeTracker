@@ -22,5 +22,5 @@ pip install -r requirements.txt
 
 ## Create/Update python environment
 ```
-pip freeze -r > requirements.txt
+pip freeze > requirements.txt
 ```
