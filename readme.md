@@ -8,6 +8,9 @@
 - [ ] Add constants for format
 - [ ] Add other csv tests
 - [ ] Add test data
+- add logging
+- design UI
+
 
 # Installation
 ## Restore python environment
