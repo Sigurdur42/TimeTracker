@@ -38,12 +38,13 @@ class TimeTrackerTests(unittest.TestCase):
         read_data = reader.read_from_csv_file(file_name)
         self.assertEqual(0, len(read_data), f"Expected an empty list -> {read_data}")
 
-    def __generate_test_data(self) -> List[TimeRecord]:
+    @staticmethod
+    def __generate_test_data() -> List[TimeRecord]:
         serializer = TimeRecordSerializer()
         data = [
             "01.01.2020;8:30;12:00",
             "01.01.2020;12:30;16:00",
-            
+
             "02.01.2020;8:00;12:00",
             "02.01.2020;12:30;15:00",
         ]
@@ -56,5 +57,5 @@ class TimeTrackerTests(unittest.TestCase):
 
         index = 0
         while index < lhs.__len__():
-            self.assertEquals(lhs[index], rhs[index], f"Data differs in index {index}")
+            self.assertEqual(lhs[index], rhs[index], f"Data differs in index {index}")
             index += 1
