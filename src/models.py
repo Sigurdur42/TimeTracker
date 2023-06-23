@@ -1,9 +1,12 @@
-from datetime import date, time
+from datetime import datetime
 from dataclasses import dataclass
 
 @dataclass
 class TimeRecord:    
-    day : date
-    start: time
-    end: time
+    start: datetime
+    end: datetime
     
+@dataclass
+class SingleDaySummary:
+    day: datetime
+    working_seconds : int

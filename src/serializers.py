@@ -2,57 +2,56 @@ from typing import List
 import csv
 import io
 from datetime import datetime
-from models import TimeRecord
+from .models import TimeRecord
 from pathlib import Path
 import logging
 
 class TimeRecordSerializer:
     def __init__(self):
         pass
-    
-    def write_csv_to_file(self, fileName: str, data : List[TimeRecord]):
+
+    def write_csv_to_file(self, fileName: str, data: List[TimeRecord]):
         logging.info(f"Writing data to csv file {fileName}")
         content = self.generate_csv(data)
         with open(fileName, "x") as file:
             file.write(content)
-            
-    
-    def generate_csv(self, data : List[TimeRecord]) -> str:
+
+    def generate_csv(self, data: List[TimeRecord]) -> str:
         output = io.StringIO()
-        writer = csv.writer(output, quoting=csv.QUOTE_MINIMAL)
-        
-        for rec in data :
+        writer = csv.writer(output, quoting=csv.QUOTE_MINIMAL, delimiter=";")
+
+        for rec in data:
             row = (
-                rec.day.strftime("%d.%M.%Y"), 
-                rec.start.strftime("%H:%M"), 
-                rec.end.strftime("%H:%M"))
-            
+                rec.start.strftime("%d.%m.%Y"),
+                rec.start.strftime("%H:%M"),
+                rec.end.strftime("%H:%M"),
+            )
+
             writer.writerow(row)
-            
+
         return output.getvalue()
-    
-    def read_from_csv(self, fileName: str) -> List[TimeRecord]:
+
+    def read_from_csv_file(self, fileName: str) -> List[TimeRecord]:
         path = Path(fileName)
-        if (not path.exists()):
+        if not path.exists():
             return list[TimeRecord]()
-        
+
         logging.info(f"Reading data from csv file {fileName}")
         with open(fileName, "r") as file:
             lines = file.readlines()
             return self.read_csv_from_lines(lines)
-        
+
     def read_csv_from_lines(self, lines: List[str]) -> List[TimeRecord]:
         result = list[TimeRecord]()
-        reader = csv.reader(lines)
+        reader = csv.reader(lines, delimiter=";")
         for row in reader:
             parsed = TimeRecord(
-                day=datetime.strptime(row[0], "%d.%M.%Y").date(), 
-                start=datetime.strptime(row[1], "%H:%M").time(), 
-                end=datetime.strptime(row[2], "%H:%M").time(), )
+                start=datetime.strptime(f'{row[0]} {row[1]}', "%d.%m.%Y %H:%M"),
+                end=datetime.strptime(f'{row[0]} {row[2]}', "%d.%m.%Y %H:%M"),
+            )
             result.append(parsed)
         return result
-        
+
     def read_csv(self, fileContent: str) -> List[TimeRecord]:
-        lines = fileContent.splitlines()        
+        lines = fileContent.splitlines()
         return self.read_csv_from_lines(lines)
-    
