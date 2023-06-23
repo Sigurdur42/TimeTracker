@@ -10,17 +10,17 @@ class TimeRecord:
 
 @dataclass
 class SingleDaySummary:
-    day: datetime
+    scope: datetime
     working_seconds: int
 
 
 @dataclass
 class SingleMonthSummary:
-    month: datetime
+    scope: datetime
     working_seconds: int
 
 
 @dataclass
 class SingleYearSummary:
-    month: datetime
+    scope: datetime
     working_seconds: int

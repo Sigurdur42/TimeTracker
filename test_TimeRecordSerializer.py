@@ -15,10 +15,10 @@ class TimeTrackerTests(unittest.TestCase):
         data = writer.generate_csv(data2Write)
         print(f"Generated CSV: {data}")
 
-        writtenData = writer.read_csv(data)
-        print(f"Read data: {writtenData}")
+        written_data = writer.read_csv(data)
+        print(f"Read data: {written_data}")
 
-        self.__compare_collections(data2Write, writtenData)
+        self.__compare_collections(data2Write, written_data)
 
     def test_generate_and_read_csv_from_file(self):
         data2Write = self.__generate_test_data()

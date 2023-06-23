@@ -6,6 +6,7 @@ from .models import TimeRecord
 from pathlib import Path
 import logging
 
+
 class TimeRecordSerializer:
     def __init__(self):
         pass

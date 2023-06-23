@@ -16,6 +16,7 @@ class TimeAnalysis:
     def __analyse_raw_data(self):
         self.__analyse_raw_data_by_day()
         self.__analyse_data_by_month()
+        self.__analyse_data_by_year()
 
     def __analyse_raw_data_by_day(self):
         def by_day(_: TimeRecord):
@@ -31,36 +32,36 @@ class TimeAnalysis:
 
     def __analyse_data_by_month(self):
         def by_month(_: SingleDaySummary):
-            return _.day.strftime('%m.%Y')
+            return _.scope.strftime('%m.%Y')
 
         grouped = {
             key: list(group) for key, group in itertools.groupby(self.data_by_day, by_month)
         }
 
         self.data_by_month.clear()
-        month_time_spend = 0
         for month in grouped.values():
+            month_time_spend = 0
             for record in month:
                 month_time_spend += record.working_seconds
 
-            by_month = SingleMonthSummary(month[0].day, month_time_spend)
+            by_month = SingleMonthSummary(month[0].scope, month_time_spend)
             self.data_by_month.append(by_month)
 
     def __analyse_data_by_year(self):
         def by_year(_: SingleMonthSummary):
-            return _.month.strftime('%Y')
+            return _.scope.strftime('%Y')
 
         grouped = {
             key: list(group) for key, group in itertools.groupby(self.data_by_month, by_year)
         }
 
         self.data_by_year.clear()
-        year_time_spend = 0
         for year in grouped.values():
+            year_time_spend = 0
             for record in year:
                 year_time_spend += record.working_seconds
 
-            by_year = SingleYearSummary(year[0].day, year_time_spend)
+            by_year = SingleYearSummary(year[0].scope, year_time_spend)
             self.data_by_year.append(by_year)
 
     @staticmethod
@@ -69,7 +70,7 @@ class TimeAnalysis:
         for part in data:
             working_seconds += (part.end - part.start).seconds
 
-        return SingleDaySummary(day=data[0].start, working_seconds=working_seconds)
+        return SingleDaySummary(scope=data[0].start, working_seconds=working_seconds)
 
     def dump_analysis(self):
         logging.info("Hier könnte Ihre Analyse stehen")
