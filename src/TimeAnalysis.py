@@ -1,5 +1,7 @@
 import logging
 import itertools
+from datetime import timedelta
+
 from .models import TimeRecord, SingleMonthSummary, SingleYearSummary
 from .models import SingleDaySummary
 from typing import List
@@ -41,10 +43,12 @@ class TimeAnalysis:
         self.data_by_month.clear()
         for month in grouped.values():
             month_time_spend = 0
+            month_overtime = 0
             for record in month:
                 month_time_spend += record.working_seconds
+                month_overtime += record.overtime_seconds
 
-            by_month = SingleMonthSummary(month[0].scope, month_time_spend)
+            by_month = SingleMonthSummary(month[0].scope, month_time_spend, month_overtime)
             self.data_by_month.append(by_month)
 
     def __analyse_data_by_year(self):
@@ -58,10 +62,12 @@ class TimeAnalysis:
         self.data_by_year.clear()
         for year in grouped.values():
             year_time_spend = 0
+            year_overtime = 0
             for record in year:
                 year_time_spend += record.working_seconds
+                year_overtime += record.overtime_seconds
 
-            by_year = SingleYearSummary(year[0].scope, year_time_spend)
+            by_year = SingleYearSummary(year[0].scope, year_time_spend, year_overtime)
             self.data_by_year.append(by_year)
 
     @staticmethod
@@ -70,7 +76,38 @@ class TimeAnalysis:
         for part in data:
             working_seconds += (part.end - part.start).seconds
 
-        return SingleDaySummary(scope=data[0].start, working_seconds=working_seconds)
+        # todo: get actual working hours from config
+        day = data[0].start
+
+        hours_per_day = 8 * 60 * 60
+
+        match day.weekday():
+            case 7:
+                overtime_seconds = working_seconds
+            case 6:
+                overtime_seconds = working_seconds
+            case _:
+                overtime_seconds = working_seconds - hours_per_day
+
+        return SingleDaySummary(
+            scope=day,
+            working_seconds=working_seconds,
+            overtime_seconds=overtime_seconds)
+
+    def get_total_overtime_seconds(self) -> int:
+        result = 0
+        for _ in self.data_by_year:
+            result += _.overtime_seconds
+
+        return result
 
     def dump_analysis(self):
-        logging.info("Hier könnte Ihre Analyse stehen")
+        print('Statistics by month:')
+        for scope in self.data_by_month:
+            year_visible = scope.scope.strftime('%m.%Y')
+            worked = '{:.2f}'.format(scope.working_seconds / 60 / 60)
+            overtime = '{:.2f}'.format(scope.overtime_seconds / 60 / 60)
+            print(f'{year_visible}: {worked}h  {overtime}h ')
+
+        total_overtime = '{:.2f}'.format(self.get_total_overtime_seconds() / 60 / 60)
+        print(f'Current overtime: {total_overtime}h')
