@@ -1,7 +1,6 @@
 import unittest
 
 from src.TimeAnalysis import TimeAnalysis
-from src.models import SingleDaySummary
 from src.serializers import TimeRecordSerializer
 
 

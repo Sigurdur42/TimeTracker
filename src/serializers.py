@@ -11,10 +11,10 @@ class TimeRecordSerializer:
     def __init__(self):
         pass
 
-    def write_csv_to_file(self, fileName: str, data: List[TimeRecord]):
-        logging.info(f"Writing data to csv file {fileName}")
+    def write_csv_to_file(self, file_name: str, data: List[TimeRecord]):
+        logging.info(f"Writing data to csv file {file_name}")
         content = self.generate_csv(data)
-        with open(fileName, "x") as file:
+        with open(file_name, "x") as file:
             file.write(content)
 
     def generate_csv(self, data: List[TimeRecord]) -> str:
