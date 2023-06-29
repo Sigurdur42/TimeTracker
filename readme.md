@@ -11,6 +11,9 @@
 - add logging
 - design UI
 
+# References
+- https://flet.dev/docs/
+
 
 # Installation
 ## Restore python environment

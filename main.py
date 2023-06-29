@@ -1,7 +1,11 @@
 import logging
 import os
+import sys
+
 from appdata import AppDataPaths
 import configparser
+
+from src.MainWindow import MainWindow
 from src.serializers import TimeRecordSerializer
 from src.TimeAnalysis import TimeAnalysis
 
@@ -47,6 +51,10 @@ def main():
     # todo: Analyse it
     analysis = TimeAnalysis(data)
     analysis.dump_analysis()
+
+    # Now run the main window
+    main = MainWindow(analysis.data_by_day)
+    main.run_window()
 
 
 if __name__ == "__main__":
