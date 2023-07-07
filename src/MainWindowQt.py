@@ -2,15 +2,21 @@ from PyQt5 import QtWidgets, uic
 from PyQt5.QtCore import pyqtSlot
 from PyQt5.QtWidgets import QTableWidgetItem, QFileDialog
 
-from src import TimeAnalysis
+from src import TimeAnalysis, Controller
 
 
 class MainWindowQt(QtWidgets.QMainWindow):
-    def __init__(self):
+    def __init__(self, controller: Controller):
+
         # Call the inherited classes __init__ method
         super(MainWindowQt, self).__init__()
+
         # Load the .ui file
         uic.loadUi('src/MainWindow.ui', self)
+
+        # init the controller
+        self.__controller = controller
+        self.__load_and_set_data(self.__controller.last_data_file)
 
         self.show()
 
@@ -18,15 +24,17 @@ class MainWindowQt(QtWidgets.QMainWindow):
     def select_file_via_picker(self):
         picker = QFileDialog(self, caption="Select data file", filter="Data files (*.csv)")
         if picker.exec_():
-            fileName = picker.selectedFiles()
-            print(fileName[0])
+            file_name = picker.selectedFiles()[0]
+            self.__load_and_set_data(file_name)
 
-    def set_data(
-            self,
-            data: TimeAnalysis,
-            file_name: str):
-        self.editOpenedFile.setPlainText(file_name)
+    def __load_and_set_data(self, file_name: str):
+        self.__controller.load_data_file(file_name)
+        self.__set_data()
 
+    def __set_data(self):
+        self.editOpenedFile.setPlainText(self.__controller.last_data_file)
+
+        data = self.__controller.time_analysis
         total_overtime = '{:.2f}'.format(data.get_total_overtime_hours())
         self.labelOvertimeSummary.setText(total_overtime)
 

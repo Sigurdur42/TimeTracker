@@ -10,10 +10,15 @@
 - [ ] Add test data
 - add logging
 - design UI
+  - react on resize
+  - add/edit data
+- add view model
 
 # References
-- https://flet.dev/docs/
+- https://betterprogramming.pub/get-started-with-pyqt-and-qt-designer-63955a129cf7
+- https://dev.to/flet/build-and-deploy-a-web-app-in-python-without-knowledge-of-html-css-javascript-30hl
 
+- https://pypi.org/project/pip-autoremove/
 
 # Installation
 ## Restore python environment
