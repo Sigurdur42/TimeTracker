@@ -1,5 +1,6 @@
 from PyQt5 import QtWidgets, uic
-from PyQt5.QtWidgets import QTableWidgetItem
+from PyQt5.QtCore import pyqtSlot
+from PyQt5.QtWidgets import QTableWidgetItem, QFileDialog
 
 from src import TimeAnalysis
 
@@ -11,31 +12,43 @@ class MainWindowQt(QtWidgets.QMainWindow):
         # Load the .ui file
         uic.loadUi('src/MainWindow.ui', self)
 
-        # configure tab view by month
-        self.tableByMonth.setColumnCount(3)
-        self.tableByMonth.setHorizontalHeaderLabels(["Month", "Hours", "Overtime"])
-
-        # Set the label text
-        # self.mainLabel.setText("Updated Text")
-        # Show the widget
         self.show()
 
-    def set_data(self, data : TimeAnalysis):
-        total_overtime = '{:.2f}'.format(data.get_total_overtime_hours())
+    @pyqtSlot(name="on_buttonOpenFilePicker_clicked")
+    def select_file_via_picker(self):
+        picker = QFileDialog(self, caption="Select data file", filter="Data files (*.csv)")
+        if picker.exec_():
+            fileName = picker.selectedFiles()
+            print(fileName[0])
 
+    def set_data(
+            self,
+            data: TimeAnalysis,
+            file_name: str):
+        self.editOpenedFile.setPlainText(file_name)
+
+        total_overtime = '{:.2f}'.format(data.get_total_overtime_hours())
         self.labelOvertimeSummary.setText(total_overtime)
 
         # fill by month
-        self.tableByMonth.setRowCount(len(data.data_by_month))
-        for index, (item) in enumerate(data.data_by_month):
+        self.fill_table(self.tableByMonth, data.data_by_month, lambda scope: scope.scope_as_month())
+        self.fill_table(self.tableByDay, data.data_by_day, lambda scope: scope.scope_as_day())
+
+    @staticmethod
+    def fill_table(table, data, scope_accessor):
+        table.setColumnCount(3)
+        table.setHorizontalHeaderLabels(["Month", "Hours", "Overtime"])
+
+        table.setRowCount(len(data))
+        for index, (item) in enumerate(sorted(data, key=lambda _: _.scope, reverse=True)):
             item_scope = QTableWidgetItem()
-            item_scope.setText(item.scope_as_month())
+            item_scope.setText(scope_accessor(item))
             item_worked = QTableWidgetItem()
             item_worked.setText('{:.2f}'.format(item.working_hours()))
             item_overtime = QTableWidgetItem()
             item_overtime.setText('{:.2f}'.format(item.overtime_hours()))
 
             # item_color.setBackground(get_rgb_from_hex(code))
-            self.tableByMonth.setItem(index, 0, item_scope)
-            self.tableByMonth.setItem(index, 1, item_worked)
-            self.tableByMonth.setItem(index, 2, item_overtime)
+            table.setItem(index, 0, item_scope)
+            table.setItem(index, 1, item_worked)
+            table.setItem(index, 2, item_overtime)

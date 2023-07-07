@@ -61,7 +61,7 @@ def main():
     # QT variant
     app = QApplication(sys.argv)
     window = MainWindowQt()
-    window.set_data(analysis)
+    window.set_data(analysis, last_data_file)
     app.exec_()
 
 if __name__ == "__main__":
