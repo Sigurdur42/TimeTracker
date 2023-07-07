@@ -12,8 +12,8 @@ class MainWindowQt(QtWidgets.QMainWindow):
         uic.loadUi('src/MainWindow.ui', self)
 
         # configure tab view by month
-        self.tableByMonth.setColumnCount(2)
-        self.tableByMonth.setHorizontalHeaderLabels(["Month", "Hours"])
+        self.tableByMonth.setColumnCount(3)
+        self.tableByMonth.setHorizontalHeaderLabels(["Month", "Hours", "Overtime"])
 
         # Set the label text
         # self.mainLabel.setText("Updated Text")
@@ -21,18 +21,21 @@ class MainWindowQt(QtWidgets.QMainWindow):
         self.show()
 
     def set_data(self, data : TimeAnalysis):
-        total_overtime = '{:.2f}'.format(data.get_total_overtime_seconds() / 60 / 60)
+        total_overtime = '{:.2f}'.format(data.get_total_overtime_hours())
 
         self.labelOvertimeSummary.setText(total_overtime)
 
         # fill by month
         self.tableByMonth.setRowCount(len(data.data_by_month))
         for index, (item) in enumerate(data.data_by_month):
-            item_name = QTableWidgetItem()
-            item_name.setText(item.scope.strftime('%m.%Y'))
-            item_code = QTableWidgetItem()
-            item_code.setText('{:.2f}'.format(item.overtime_seconds / 60 / 60))
+            item_scope = QTableWidgetItem()
+            item_scope.setText(item.scope_as_month())
+            item_worked = QTableWidgetItem()
+            item_worked.setText('{:.2f}'.format(item.working_hours()))
+            item_overtime = QTableWidgetItem()
+            item_overtime.setText('{:.2f}'.format(item.overtime_hours()))
 
             # item_color.setBackground(get_rgb_from_hex(code))
-            self.tableByMonth.setItem(index, 0, item_name)
-            self.tableByMonth.setItem(index, 1, item_code)
+            self.tableByMonth.setItem(index, 0, item_scope)
+            self.tableByMonth.setItem(index, 1, item_worked)
+            self.tableByMonth.setItem(index, 2, item_overtime)

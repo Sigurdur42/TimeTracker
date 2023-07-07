@@ -101,6 +101,9 @@ class TimeAnalysis:
 
         return result
 
+    def get_total_overtime_hours(self) -> float:
+        return self.get_total_overtime_seconds() / 60 / 60
+
     def dump_analysis(self):
         print('Statistics by month:')
         for scope in self.data_by_month:
