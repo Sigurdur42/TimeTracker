@@ -30,28 +30,6 @@ class MainWindow():
             )
         )
 
-        # try a grid now
-        # data_table = ft.DataTable(
-        #     border=ft.border.all(2, "red"),
-        #     vertical_lines=ft.border.BorderSide(3, "blue"),
-        #     horizontal_lines=ft.border.BorderSide(1, "green"),
-        #     border_radius=4,
-        #     show_checkbox_column=True,
-        #     columns=[
-        #         ft.DataColumn(ft.Text('Date')),
-        #         ft.DataColumn(ft.Text('Worked')),
-        #         ft.DataColumn(ft.Text('Overtime')),
-        #     ],
-        #     rows=self.__create_table_rows(self._loadedData)
-        # )
-        #
-        # lv = ft.ListView(expand=1, auto_scroll=True, padding=10, height=300)
-        # lv.controls.append(data_table)
-
-        # page.add(ft.Row([
-        #     lv
-        # ]))
-
         ## try listview
         list_view = ft.ListView(expand=1, spacing=10, padding=20, auto_scroll=False)
 
@@ -61,10 +39,10 @@ class MainWindow():
 
     def __create_table_rows(self, data) -> list[ft.Row]:
         result = list[ft.Row]()
-        for item in data:
+        for item in sorted(data, key=lambda _: _.scope, reverse=True):
             row = ft.Row([
-                ft.IconButton(  icon=ft.icons.PAUSE_CIRCLE_FILLED_ROUNDED,icon_size=20),
-                ft.TextField(value= item.scope, border=ft.InputBorder.NONE),
+                # ft.IconButton(icon=ft.icons.PAUSE_CIRCLE_FILLED_ROUNDED, icon_size=20),
+                ft.TextField(value=item.scope, border=ft.InputBorder.NONE),
                 ft.Text(self.__format_seconds_to_hours(item.working_seconds)),
                 ft.Text(self.__format_seconds_to_hours(item.overtime_seconds)),
             ])

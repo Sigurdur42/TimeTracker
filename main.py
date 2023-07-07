@@ -2,10 +2,12 @@ import logging
 import os
 import sys
 
+from PyQt5.QtWidgets import QApplication
 from appdata import AppDataPaths
 import configparser
 
 from src.MainWindow import MainWindow
+from src.MainWindowQt import MainWindowQt
 from src.serializers import TimeRecordSerializer
 from src.TimeAnalysis import TimeAnalysis
 
@@ -52,10 +54,15 @@ def main():
     analysis = TimeAnalysis(data)
     analysis.dump_analysis()
 
-    # Now run the main window
-    main = MainWindow(analysis.data_by_day)
-    main.run_window()
+    # Now run the main window --> flet
+    # main = MainWindow(analysis.data_by_day)
+    # main.run_window()
 
+    # QT variant
+    app = QApplication(sys.argv)
+    window = MainWindowQt()
+    window.set_data(analysis)
+    app.exec_()
 
 if __name__ == "__main__":
     main()

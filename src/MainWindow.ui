@@ -6,61 +6,111 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>800</width>
-    <height>600</height>
+    <width>826</width>
+    <height>581</height>
    </rect>
   </property>
   <property name="windowTitle">
    <string>MainWindow</string>
   </property>
   <widget class="QWidget" name="centralwidget">
-   <widget class="QGroupBox" name="groupBox">
+   <widget class="QPlainTextEdit" name="editOpenedFile">
     <property name="geometry">
      <rect>
-      <x>0</x>
-      <y>10</y>
-      <width>621</width>
-      <height>61</height>
+      <x>50</x>
+      <y>20</y>
+      <width>251</width>
+      <height>31</height>
      </rect>
     </property>
-    <property name="title">
-     <string>GroupBox</string>
+    <property name="readOnly">
+     <bool>true</bool>
     </property>
-    <widget class="QLineEdit" name="lineEdit">
-     <property name="geometry">
-      <rect>
-       <x>10</x>
-       <y>30</y>
-       <width>451</width>
-       <height>22</height>
-      </rect>
-     </property>
-     <property name="readOnly">
-      <bool>true</bool>
-     </property>
+   </widget>
+   <widget class="QPushButton" name="buttonOpenFilePicker">
+    <property name="geometry">
+     <rect>
+      <x>310</x>
+      <y>20</y>
+      <width>80</width>
+      <height>22</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Open File...</string>
+    </property>
+   </widget>
+   <widget class="QTabWidget" name="tabData">
+    <property name="geometry">
+     <rect>
+      <x>330</x>
+      <y>90</y>
+      <width>481</width>
+      <height>431</height>
+     </rect>
+    </property>
+    <property name="currentIndex">
+     <number>0</number>
+    </property>
+    <widget class="QWidget" name="tabByMonth">
+     <attribute name="title">
+      <string>by Month</string>
+     </attribute>
+     <widget class="QTableWidget" name="tableByMonth">
+      <property name="geometry">
+       <rect>
+        <x>5</x>
+        <y>11</y>
+        <width>461</width>
+        <height>381</height>
+       </rect>
+      </property>
+      <property name="alternatingRowColors">
+       <bool>true</bool>
+      </property>
+      <property name="selectionMode">
+       <enum>QAbstractItemView::SingleSelection</enum>
+      </property>
+      <property name="selectionBehavior">
+       <enum>QAbstractItemView::SelectColumns</enum>
+      </property>
+      <property name="columnCount">
+       <number>2</number>
+      </property>
+      <column/>
+      <column/>
+     </widget>
     </widget>
-    <widget class="QPushButton" name="selectDataFileButon">
-     <property name="geometry">
-      <rect>
-       <x>470</x>
-       <y>30</y>
-       <width>141</width>
-       <height>22</height>
-      </rect>
-     </property>
-     <property name="text">
-      <string>Select Data File...</string>
-     </property>
+    <widget class="QWidget" name="tabByDay">
+     <attribute name="title">
+      <string>byDay</string>
+     </attribute>
     </widget>
    </widget>
-   <widget class="QTableView" name="tableView">
+   <widget class="QLabel" name="label">
     <property name="geometry">
      <rect>
-      <x>40</x>
-      <y>100</y>
-      <width>256</width>
-      <height>192</height>
+      <x>20</x>
+      <y>160</y>
+      <width>57</width>
+      <height>14</height>
      </rect>
+    </property>
+    <property name="text">
+     <string>Total:</string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="labelOvertimeSummary">
+    <property name="geometry">
+     <rect>
+      <x>100</x>
+      <y>160</y>
+      <width>131</width>
+      <height>16</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>+sum will be here</string>
     </property>
    </widget>
   </widget>
@@ -69,7 +119,7 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>800</width>
+     <width>826</width>
      <height>19</height>
     </rect>
    </property>
