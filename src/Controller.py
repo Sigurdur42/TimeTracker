@@ -25,6 +25,7 @@ class Controller:
         logging.info(f'Using data file {self.last_data_file}')
 
     def load_data_file(self, file_name: str):
+        logging.info(f'loading records from {file_name}...')
         data = self.__data_reader.read_from_csv_file(file_name)
         self.time_analysis = TimeAnalysis.TimeAnalysis(data)
         logging.info(f'Have read {len(data)} records from data file')

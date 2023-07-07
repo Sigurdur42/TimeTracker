@@ -38,6 +38,9 @@
      <property name="readOnly">
       <bool>true</bool>
      </property>
+     <property name="plainText">
+      <string/>
+     </property>
     </widget>
     <widget class="QPushButton" name="buttonOpenFilePicker">
      <property name="geometry">

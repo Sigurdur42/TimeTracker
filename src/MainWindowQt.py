@@ -1,3 +1,5 @@
+import logging
+
 from PyQt5 import QtWidgets, uic
 from PyQt5.QtCore import pyqtSlot
 from PyQt5.QtWidgets import QTableWidgetItem, QFileDialog
@@ -13,6 +15,7 @@ class MainWindowQt(QtWidgets.QMainWindow):
 
         # Load the .ui file
         uic.loadUi('src/MainWindow.ui', self)
+        logging.info('Loaded main window...')
 
         # init the controller
         self.__controller = controller
@@ -32,6 +35,7 @@ class MainWindowQt(QtWidgets.QMainWindow):
         self.__set_data()
 
     def __set_data(self):
+        logging.info('setting data to ui...')
         self.editOpenedFile.setPlainText(self.__controller.last_data_file)
 
         data = self.__controller.time_analysis
@@ -41,6 +45,8 @@ class MainWindowQt(QtWidgets.QMainWindow):
         # fill by month
         self.fill_table(self.tableByMonth, data.data_by_month, lambda scope: scope.scope_as_month())
         self.fill_table(self.tableByDay, data.data_by_day, lambda scope: scope.scope_as_day())
+
+        logging.info('data successfully set to ui...')
 
     @staticmethod
     def fill_table(table, data, scope_accessor):

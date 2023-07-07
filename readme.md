@@ -4,15 +4,11 @@
 - load csv content from ~/TimeTracker/TimeTrackerData.csv
 
 # todo
-
-- [ ] Add constants for format
-- [ ] Add other csv tests
-- [ ] Add test data
 - add logging
 - design UI
   - react on resize
   - add/edit data
-- add view model
+  - error handling
 
 # References
 - https://betterprogramming.pub/get-started-with-pyqt-and-qt-designer-63955a129cf7
