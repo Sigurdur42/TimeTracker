@@ -104,7 +104,7 @@ class TimeAnalysis:
     def dump_analysis(self):
         print('Statistics by month:')
         for scope in self.data_by_month:
-            year_visible = scope.scope.strftime('%m.%Y')
+            year_visible = scope.scope_as_year()
             worked = '{:.2f}'.format(scope.working_seconds / 60 / 60)
             overtime = '{:.2f}'.format(scope.overtime_seconds / 60 / 60)
             print(f'{year_visible}: {worked}h  {overtime}h ')
