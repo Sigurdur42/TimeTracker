@@ -2,16 +2,16 @@ import logging
 import itertools
 from datetime import timedelta
 
-from .models import TimeRecord, SingleMonthSummary, SingleYearSummary
-from .models import SingleDaySummary
+from .models import TimeRecord
+from .models import ScopeSummary
 from typing import List
 
 
 class TimeAnalysis:
     def __init__(self, data: List[TimeRecord]):
-        self.data_by_day = list[SingleDaySummary]()
-        self.data_by_month = list[SingleMonthSummary]()
-        self.data_by_year = list[SingleYearSummary]()
+        self.data_by_day = list[ScopeSummary]()
+        self.data_by_month = list[ScopeSummary]()
+        self.data_by_year = list[ScopeSummary]()
         self.raw_data = data
         self.__analyse_raw_data()
 
@@ -33,7 +33,7 @@ class TimeAnalysis:
             self.data_by_day.append(self.__summarize_single_day(single_day))
 
     def __analyse_data_by_month(self):
-        def by_month(_: SingleDaySummary):
+        def by_month(_: ScopeSummary):
             return _.scope.strftime('%m.%Y')
 
         grouped = {
@@ -48,11 +48,11 @@ class TimeAnalysis:
                 month_time_spend += record.working_seconds
                 month_overtime += record.overtime_seconds
 
-            by_month = SingleMonthSummary(month[0].scope, month_time_spend, month_overtime)
+            by_month = ScopeSummary(month[0].scope, month_time_spend, month_overtime)
             self.data_by_month.append(by_month)
 
     def __analyse_data_by_year(self):
-        def by_year(_: SingleMonthSummary):
+        def by_year(_: ScopeSummary):
             return _.scope.strftime('%Y')
 
         grouped = {
@@ -67,11 +67,11 @@ class TimeAnalysis:
                 year_time_spend += record.working_seconds
                 year_overtime += record.overtime_seconds
 
-            by_year = SingleYearSummary(year[0].scope, year_time_spend, year_overtime)
+            by_year = ScopeSummary(year[0].scope, year_time_spend, year_overtime)
             self.data_by_year.append(by_year)
 
     @staticmethod
-    def __summarize_single_day(data: List[TimeRecord]) -> SingleDaySummary:
+    def __summarize_single_day(data: List[TimeRecord]) -> ScopeSummary:
         working_seconds = 0
         for part in data:
             working_seconds += (part.end - part.start).seconds
@@ -89,7 +89,7 @@ class TimeAnalysis:
             case _:
                 overtime_seconds = working_seconds - hours_per_day
 
-        return SingleDaySummary(
+        return ScopeSummary(
             scope=day,
             working_seconds=working_seconds,
             overtime_seconds=overtime_seconds)

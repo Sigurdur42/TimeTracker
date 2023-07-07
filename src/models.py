@@ -9,21 +9,7 @@ class TimeRecord:
 
 
 @dataclass
-class SingleDaySummary:
-    scope: datetime
-    working_seconds: int
-    overtime_seconds: int
-
-
-@dataclass
-class SingleMonthSummary:
-    scope: datetime
-    working_seconds: int
-    overtime_seconds: int
-
-
-@dataclass
-class SingleYearSummary:
+class ScopeSummary:
     scope: datetime
     working_seconds: int
     overtime_seconds: int
