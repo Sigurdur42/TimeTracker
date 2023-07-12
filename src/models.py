@@ -4,6 +4,7 @@ from dataclasses import dataclass
 
 @dataclass
 class TimeRecord:
+    internal_id: int
     start: datetime
     end: datetime
 

@@ -2,9 +2,10 @@ import logging
 
 from PyQt5 import QtWidgets, uic
 from PyQt5.QtCore import pyqtSlot
-from PyQt5.QtWidgets import QTableWidgetItem, QFileDialog
+from PyQt5.QtWidgets import QTableWidgetItem, QFileDialog, QDialog
 
 from src import TimeAnalysis, Controller
+from src.models import TimeRecord
 
 
 class MainWindowQt(QtWidgets.QMainWindow):
@@ -24,14 +25,39 @@ class MainWindowQt(QtWidgets.QMainWindow):
         self.show()
 
     @pyqtSlot('int', name="on_tabData_currentChanged")
-    def tab_current_changed(self, index: int):
+    def __tab_current_changed(self, index: int):
         if index == 2:
             self.groupBoxRecordDetail.show()
         else:
             self.groupBoxRecordDetail.hide()
 
+    @pyqtSlot(name="on_tableByRecord_itemSelectionChanged")
+    def __by_record_item_changed(self):
+        current_row = self.tableByRecord.currentRow()
+        internal_id_widget = self.tableByRecord.item(current_row, 4)
+        if internal_id_widget is not None:
+            internal_id = internal_id_widget.text()
+            found = self.__controller.time_analysis.raw_data[int(internal_id)]
+
+    @pyqtSlot(name="on_pushButtonNewRecord_clicked")
+    def __on_new_record(self):
+        from datetime import datetime
+        from src.EditRecordDialog import EditRecordDialog
+
+        model = TimeRecord(
+            internal_id=len(self.__controller.time_analysis.raw_data),
+            start=datetime.now(),
+            end=datetime.now()
+        )
+
+        dialog = EditRecordDialog(self, model)
+
+        if dialog.exec_() == QDialog.Accepted:
+            self.__controller.add_record(model, self.__controller.last_data_file)
+            self.__set_data()
+
     @pyqtSlot(name="on_buttonOpenFilePicker_clicked")
-    def select_file_via_picker(self):
+    def __select_file_via_picker(self):
         picker = QFileDialog(self, caption="Select data file", filter="Data files (*.csv)")
         if picker.exec_():
             file_name = picker.selectedFiles()[0]
@@ -79,10 +105,10 @@ class MainWindowQt(QtWidgets.QMainWindow):
 
     @staticmethod
     def fill_table_with_raw_data(table, data):
-        table.setColumnCount(4)
-        table.setHorizontalHeaderLabels(["Date", "Start", "End", "Duration"])
 
-        init_column_width=60
+        table.setColumnCount(5)
+        table.setHorizontalHeaderLabels(["Date", "Start", "End", "Duration", "id"])
+
         table.setRowCount(len(data))
         for index, (item) in enumerate(sorted(data, key=lambda _: _.start, reverse=True)):
             item_scope = QTableWidgetItem()
@@ -97,10 +123,14 @@ class MainWindowQt(QtWidgets.QMainWindow):
             item_duration = QTableWidgetItem()
             item_duration.setText(item.get_duration_display())
 
+            item_internal_id = QTableWidgetItem()
+            item_internal_id.setText(str(item.internal_id))
+
             # item_color.setBackground(get_rgb_from_hex(code))
             table.setItem(index, 0, item_scope)
             table.setItem(index, 1, item_start)
             table.setItem(index, 2, item_end)
             table.setItem(index, 3, item_duration)
+            table.setItem(index, 4, item_internal_id)
 
             table.resizeColumnsToContents()

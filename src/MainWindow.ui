@@ -117,7 +117,7 @@
       </rect>
      </property>
      <property name="currentIndex">
-      <number>0</number>
+      <number>2</number>
      </property>
      <widget class="QWidget" name="tabByMonth">
       <attribute name="title">
@@ -229,44 +229,18 @@
      </widget>
     </widget>
    </widget>
-   <widget class="QGroupBox" name="groupBoxRecordDetail">
+   <widget class="QPushButton" name="pushButtonNewRecord">
     <property name="geometry">
      <rect>
       <x>10</x>
-      <y>310</y>
-      <width>290</width>
-      <height>211</height>
+      <y>320</y>
+      <width>101</width>
+      <height>22</height>
      </rect>
     </property>
-    <property name="title">
-     <string>Record Details</string>
+    <property name="text">
+     <string>New Record...</string>
     </property>
-    <widget class="QWidget" name="formLayoutWidget_2">
-     <property name="geometry">
-      <rect>
-       <x>10</x>
-       <y>30</y>
-       <width>271</width>
-       <height>171</height>
-      </rect>
-     </property>
-     <layout class="QFormLayout" name="formLayout_2">
-      <item row="0" column="0">
-       <widget class="QLabel" name="label_2">
-        <property name="text">
-         <string>Total:</string>
-        </property>
-       </widget>
-      </item>
-      <item row="0" column="1">
-       <widget class="QLabel" name="labelOvertimeSummary_2">
-        <property name="text">
-         <string>+sum will be here</string>
-        </property>
-       </widget>
-      </item>
-     </layout>
-    </widget>
    </widget>
   </widget>
   <widget class="QMenuBar" name="menubar">

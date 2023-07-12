@@ -4,6 +4,7 @@ from dataclasses import dataclass
 from appdata import AppDataPaths
 
 from src import BetterConfigParser, TimeAnalysis
+from src.models import TimeRecord
 from src.serializers import TimeRecordSerializer
 
 
@@ -35,3 +36,7 @@ class Controller:
             'LastDataFile',
             file_name)
         self.last_data_file = file_name
+
+    def add_record(self, new_record: TimeRecord, file_name: str):
+        self.time_analysis.add_record(new_record)
+        self.__data_reader.write_csv_to_file(file_name, self.time_analysis.raw_data)

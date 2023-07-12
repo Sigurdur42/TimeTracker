@@ -7,7 +7,7 @@
 - add logging
 - design UI
   - react on resize
-  - add/edit data
+  - edit data
   - error handling
 
 # References
