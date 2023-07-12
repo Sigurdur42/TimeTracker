@@ -2,7 +2,6 @@ from typing import List
 import unittest
 from src.models import TimeRecord
 import os
-from datetime import datetime
 from src.serializers import TimeRecordSerializer
 import tempfile
 import uuid

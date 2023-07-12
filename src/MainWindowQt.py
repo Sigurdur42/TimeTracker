@@ -23,6 +23,13 @@ class MainWindowQt(QtWidgets.QMainWindow):
 
         self.show()
 
+    @pyqtSlot('int', name="on_tabData_currentChanged")
+    def tab_current_changed(self, index: int):
+        if index == 2:
+            self.groupBoxRecordDetail.show()
+        else:
+            self.groupBoxRecordDetail.hide()
+
     @pyqtSlot(name="on_buttonOpenFilePicker_clicked")
     def select_file_via_picker(self):
         picker = QFileDialog(self, caption="Select data file", filter="Data files (*.csv)")
@@ -45,6 +52,7 @@ class MainWindowQt(QtWidgets.QMainWindow):
         # fill by month
         self.fill_table(self.tableByMonth, data.data_by_month, lambda scope: scope.scope_as_month())
         self.fill_table(self.tableByDay, data.data_by_day, lambda scope: scope.scope_as_day())
+        self.fill_table_with_raw_data(self.tableByRecord, data.raw_data)
 
         logging.info('data successfully set to ui...')
 
@@ -66,3 +74,33 @@ class MainWindowQt(QtWidgets.QMainWindow):
             table.setItem(index, 0, item_scope)
             table.setItem(index, 1, item_worked)
             table.setItem(index, 2, item_overtime)
+
+            table.resizeColumnsToContents()
+
+    @staticmethod
+    def fill_table_with_raw_data(table, data):
+        table.setColumnCount(4)
+        table.setHorizontalHeaderLabels(["Date", "Start", "End", "Duration"])
+
+        init_column_width=60
+        table.setRowCount(len(data))
+        for index, (item) in enumerate(sorted(data, key=lambda _: _.start, reverse=True)):
+            item_scope = QTableWidgetItem()
+            item_scope.setText(item.scope_as_day())
+
+            item_start = QTableWidgetItem()
+            item_start.setText(item.start.strftime('%H:%M'))
+
+            item_end = QTableWidgetItem()
+            item_end.setText(item.end.strftime('%H:%M'))
+
+            item_duration = QTableWidgetItem()
+            item_duration.setText(item.get_duration_display())
+
+            # item_color.setBackground(get_rgb_from_hex(code))
+            table.setItem(index, 0, item_scope)
+            table.setItem(index, 1, item_start)
+            table.setItem(index, 2, item_end)
+            table.setItem(index, 3, item_duration)
+
+            table.resizeColumnsToContents()

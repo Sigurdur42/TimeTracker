@@ -7,6 +7,16 @@ class TimeRecord:
     start: datetime
     end: datetime
 
+    def scope_as_day(self):
+        return self.start.strftime('%d.%m.%Y')
+
+    def get_duration_seconds(self) -> int:
+        return (self.end - self.start).seconds
+
+    def get_duration_display(self) -> int:
+        diff = self.end - self.start
+        return str(diff)
+
 
 @dataclass
 class ScopeSummary:

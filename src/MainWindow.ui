@@ -19,7 +19,7 @@
      <rect>
       <x>10</x>
       <y>10</y>
-      <width>791</width>
+      <width>790</width>
       <height>81</height>
      </rect>
     </property>
@@ -48,7 +48,7 @@
        <x>700</x>
        <y>30</y>
        <width>80</width>
-       <height>22</height>
+       <height>31</height>
       </rect>
      </property>
      <property name="text">
@@ -59,9 +59,9 @@
    <widget class="QGroupBox" name="groupBox_2">
     <property name="geometry">
      <rect>
-      <x>20</x>
+      <x>10</x>
       <y>90</y>
-      <width>291</width>
+      <width>290</width>
       <height>211</height>
      </rect>
     </property>
@@ -101,7 +101,7 @@
       <x>320</x>
       <y>100</y>
       <width>471</width>
-      <height>281</height>
+      <height>421</height>
      </rect>
     </property>
     <property name="title">
@@ -110,14 +110,14 @@
     <widget class="QTabWidget" name="tabData">
      <property name="geometry">
       <rect>
-       <x>0</x>
+       <x>10</x>
        <y>20</y>
        <width>451</width>
-       <height>261</height>
+       <height>391</height>
       </rect>
      </property>
      <property name="currentIndex">
-      <number>1</number>
+      <number>0</number>
      </property>
      <widget class="QWidget" name="tabByMonth">
       <attribute name="title">
@@ -128,9 +128,12 @@
         <rect>
          <x>10</x>
          <y>10</y>
-         <width>431</width>
-         <height>211</height>
+         <width>421</width>
+         <height>341</height>
         </rect>
+       </property>
+       <property name="editTriggers">
+        <set>QAbstractItemView::NoEditTriggers</set>
        </property>
        <property name="alternatingRowColors">
         <bool>true</bool>
@@ -150,7 +153,7 @@
      </widget>
      <widget class="QWidget" name="tabByDay">
       <attribute name="title">
-       <string>byDay</string>
+       <string>by Day</string>
       </attribute>
       <widget class="QTableWidget" name="tableByDay">
        <property name="geometry">
@@ -158,8 +161,17 @@
          <x>10</x>
          <y>10</y>
          <width>421</width>
-         <height>211</height>
+         <height>341</height>
         </rect>
+       </property>
+       <property name="sizePolicy">
+        <sizepolicy hsizetype="Maximum" vsizetype="Expanding">
+         <horstretch>0</horstretch>
+         <verstretch>0</verstretch>
+        </sizepolicy>
+       </property>
+       <property name="editTriggers">
+        <set>QAbstractItemView::NoEditTriggers</set>
        </property>
        <property name="alternatingRowColors">
         <bool>true</bool>
@@ -177,6 +189,83 @@
        <column/>
       </widget>
      </widget>
+     <widget class="QWidget" name="tab">
+      <attribute name="title">
+       <string>by Record</string>
+      </attribute>
+      <widget class="QTableWidget" name="tableByRecord">
+       <property name="geometry">
+        <rect>
+         <x>10</x>
+         <y>10</y>
+         <width>421</width>
+         <height>341</height>
+        </rect>
+       </property>
+       <property name="sizePolicy">
+        <sizepolicy hsizetype="Maximum" vsizetype="Expanding">
+         <horstretch>0</horstretch>
+         <verstretch>0</verstretch>
+        </sizepolicy>
+       </property>
+       <property name="editTriggers">
+        <set>QAbstractItemView::NoEditTriggers</set>
+       </property>
+       <property name="alternatingRowColors">
+        <bool>true</bool>
+       </property>
+       <property name="selectionMode">
+        <enum>QAbstractItemView::SingleSelection</enum>
+       </property>
+       <property name="selectionBehavior">
+        <enum>QAbstractItemView::SelectRows</enum>
+       </property>
+       <property name="columnCount">
+        <number>2</number>
+       </property>
+       <column/>
+       <column/>
+      </widget>
+     </widget>
+    </widget>
+   </widget>
+   <widget class="QGroupBox" name="groupBoxRecordDetail">
+    <property name="geometry">
+     <rect>
+      <x>10</x>
+      <y>310</y>
+      <width>290</width>
+      <height>211</height>
+     </rect>
+    </property>
+    <property name="title">
+     <string>Record Details</string>
+    </property>
+    <widget class="QWidget" name="formLayoutWidget_2">
+     <property name="geometry">
+      <rect>
+       <x>10</x>
+       <y>30</y>
+       <width>271</width>
+       <height>171</height>
+      </rect>
+     </property>
+     <layout class="QFormLayout" name="formLayout_2">
+      <item row="0" column="0">
+       <widget class="QLabel" name="label_2">
+        <property name="text">
+         <string>Total:</string>
+        </property>
+       </widget>
+      </item>
+      <item row="0" column="1">
+       <widget class="QLabel" name="labelOvertimeSummary_2">
+        <property name="text">
+         <string>+sum will be here</string>
+        </property>
+       </widget>
+      </item>
+     </layout>
     </widget>
    </widget>
   </widget>
