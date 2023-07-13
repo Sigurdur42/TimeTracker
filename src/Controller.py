@@ -16,7 +16,7 @@ class Controller:
             app_data_paths: AppDataPaths):
         self.time_analysis = None
         self.__config_parser = config_parser
-        self.__app_data_paths = app_data_paths        
+        self.__app_data_paths = app_data_paths
         self.__data_reader = TimeRecordSerializer()
 
         self.last_data_file = self.__config_parser.get_value(
@@ -40,3 +40,16 @@ class Controller:
     def add_record(self, new_record: TimeRecord, file_name: str):
         self.time_analysis.add_record(new_record)
         self.__data_reader.write_csv_to_file(file_name, self.time_analysis.raw_data)
+
+    def record_has_been_updated(self):
+        self.time_analysis.analyse_raw_data()
+        self.__data_reader.write_csv_to_file(self.last_data_file, self.time_analysis.raw_data)
+
+    def delete_record(self, model: TimeRecord):
+        try:
+            found_index = self.time_analysis.raw_data.index(model)
+            del self.time_analysis.raw_data[found_index]
+            self.time_analysis.analyse_raw_data()
+            self.__data_reader.write_csv_to_file(self.last_data_file, self.time_analysis.raw_data)
+        except ValueError:
+            pass

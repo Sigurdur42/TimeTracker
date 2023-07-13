@@ -2,7 +2,7 @@ import logging
 
 from PyQt5 import QtWidgets, uic
 from PyQt5.QtCore import pyqtSlot
-from PyQt5.QtWidgets import QTableWidgetItem, QFileDialog, QDialog
+from PyQt5.QtWidgets import QTableWidgetItem, QFileDialog, QDialog, QMessageBox
 
 from src import TimeAnalysis, Controller
 from src.models import TimeRecord
@@ -22,14 +22,18 @@ class MainWindowQt(QtWidgets.QMainWindow):
         self.__controller = controller
         self.__load_and_set_data(self.__controller.last_data_file)
 
+        self.selected_raw_data = None
+
         self.show()
 
     @pyqtSlot('int', name="on_tabData_currentChanged")
     def __tab_current_changed(self, index: int):
         if index == 2:
-            self.groupBoxRecordDetail.show()
+            self.pushButtonEditRecord.show()
+            self.pushButtonDeleteRecord.show()
         else:
-            self.groupBoxRecordDetail.hide()
+            self.pushButtonEditRecord.hide()
+            self.pushButtonDeleteRecord.hide()
 
     @pyqtSlot(name="on_tableByRecord_itemSelectionChanged")
     def __by_record_item_changed(self):
@@ -37,12 +41,17 @@ class MainWindowQt(QtWidgets.QMainWindow):
         internal_id_widget = self.tableByRecord.item(current_row, 4)
         if internal_id_widget is not None:
             internal_id = internal_id_widget.text()
-            found = self.__controller.time_analysis.raw_data[int(internal_id)]
+            self.selected_raw_data = self.__controller.time_analysis.raw_data[int(internal_id)]
+            self.pushButtonEditRecord.setEnabled(True)
+            self.pushButtonDeleteRecord.setEnabled(True)
+        else:
+            self.selected_raw_data = None
+            self.pushButtonEditRecord.setEnabled(False)
+            self.pushButtonDeleteRecord.setEnabled(False)
 
     @pyqtSlot(name="on_pushButtonNewRecord_clicked")
     def __on_new_record(self):
         from datetime import datetime
-        from src.EditRecordDialog import EditRecordDialog
 
         model = TimeRecord(
             internal_id=len(self.__controller.time_analysis.raw_data),
@@ -50,11 +59,32 @@ class MainWindowQt(QtWidgets.QMainWindow):
             end=datetime.now()
         )
 
-        dialog = EditRecordDialog(self, model)
-
-        if dialog.exec_() == QDialog.Accepted:
+        if self.__show_edit_record_dialog(model):
             self.__controller.add_record(model, self.__controller.last_data_file)
             self.__set_data()
+
+    @pyqtSlot(name="on_pushButtonEditRecord_clicked")
+    def __on_edit_record(self):
+        if self.__show_edit_record_dialog(self.selected_raw_data):
+            self.__controller.record_has_been_updated()
+            self.__set_data()
+
+    @pyqtSlot(name="on_pushButtonDeleteRecord_clicked")
+    def __on_edit_record(self):
+        message_box = QMessageBox()
+        message_box.setIcon(QMessageBox.Question)
+        message_box.setText("Do you want to delete the record?")
+        message_box.setStandardButtons(QMessageBox.Yes | QMessageBox.No)
+
+        if message_box.exec_() == QMessageBox.Yes:
+            self.__controller.delete_record(self.selected_raw_data)
+            self.__set_data()
+
+    def __show_edit_record_dialog(self, model: TimeRecord) -> bool:
+        from src.EditRecordDialog import EditRecordDialog
+
+        dialog = EditRecordDialog(self, model)
+        return dialog.exec_() == QDialog.Accepted
 
     @pyqtSlot(name="on_buttonOpenFilePicker_clicked")
     def __select_file_via_picker(self):
@@ -105,7 +135,6 @@ class MainWindowQt(QtWidgets.QMainWindow):
 
     @staticmethod
     def fill_table_with_raw_data(table, data):
-
         table.setColumnCount(5)
         table.setHorizontalHeaderLabels(["Date", "Start", "End", "Duration", "id"])
 

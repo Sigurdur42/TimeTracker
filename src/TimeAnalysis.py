@@ -13,9 +13,9 @@ class TimeAnalysis:
         self.data_by_month = list[ScopeSummary]()
         self.data_by_year = list[ScopeSummary]()
         self.raw_data = data
-        self.__analyse_raw_data()
+        self.analyse_raw_data()
 
-    def __analyse_raw_data(self):
+    def analyse_raw_data(self):
         self.__analyse_raw_data_by_day()
         self.__analyse_data_by_month()
         self.__analyse_data_by_year()
@@ -106,7 +106,7 @@ class TimeAnalysis:
 
     def add_record(self, new_record: TimeRecord):
         self.raw_data.append(new_record)
-        self.__analyse_raw_data()
+        self.analyse_raw_data()
 
     def dump_analysis(self):
         print('Statistics by month:')
