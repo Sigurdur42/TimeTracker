@@ -105,7 +105,8 @@ class MainWindowQt(QtWidgets.QMainWindow):
         self.editOpenedFile.setPlainText(self.__controller.last_data_file)
 
         data = self.__controller.time_analysis
-        total_overtime = '{:.2f}'.format(data.get_total_overtime_hours())
+
+        total_overtime = HumanReadable.seconds_to_human_readable(data.get_total_overtime_seconds())
         self.labelOvertimeSummary.setText(total_overtime)
 
         palette = QPalette()
