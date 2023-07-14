@@ -10,7 +10,7 @@ from src.models import TimeRecord, HumanReadable
 
 
 class MainWindowQt(QtWidgets.QMainWindow):
-    def __init__(self, controller: Controller):
+    def __init__(self, controller: Controller, version: str):
 
         # Call the inherited classes __init__ method
         super(MainWindowQt, self).__init__()
@@ -18,6 +18,7 @@ class MainWindowQt(QtWidgets.QMainWindow):
         # Load the .ui file
         uic.loadUi('src/MainWindow.ui', self)
         logging.info('Loaded main window...')
+        self.setWindowTitle(f"Time Tracker V{version}")
 
         # init the controller
         self.__controller = controller

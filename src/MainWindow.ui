@@ -6,12 +6,12 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>826</width>
-    <height>581</height>
+    <width>793</width>
+    <height>568</height>
    </rect>
   </property>
   <property name="windowTitle">
-   <string>MainWindow</string>
+   <string>Time Tracker</string>
   </property>
   <widget class="QWidget" name="centralwidget">
    <widget class="QGroupBox" name="groupBox">
@@ -59,7 +59,7 @@
    <widget class="QGroupBox" name="groupBox_2">
     <property name="geometry">
      <rect>
-      <x>10</x>
+      <x>9</x>
       <y>90</y>
       <width>290</width>
       <height>211</height>
@@ -229,50 +229,63 @@
      </widget>
     </widget>
    </widget>
-   <widget class="QPushButton" name="pushButtonNewRecord">
+   <widget class="QGroupBox" name="groupBox_4">
     <property name="geometry">
      <rect>
-      <x>10</x>
-      <y>320</y>
-      <width>101</width>
-      <height>22</height>
+      <x>9</x>
+      <y>310</y>
+      <width>291</width>
+      <height>101</height>
      </rect>
     </property>
-    <property name="text">
-     <string>New Record...</string>
+    <property name="title">
+     <string>Records</string>
     </property>
-   </widget>
-   <widget class="QPushButton" name="pushButtonEditRecord">
-    <property name="enabled">
-     <bool>false</bool>
-    </property>
-    <property name="geometry">
-     <rect>
-      <x>10</x>
-      <y>350</y>
-      <width>101</width>
-      <height>22</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string>Edit...</string>
-    </property>
-   </widget>
-   <widget class="QPushButton" name="pushButtonDeleteRecord">
-    <property name="enabled">
-     <bool>false</bool>
-    </property>
-    <property name="geometry">
-     <rect>
-      <x>200</x>
-      <y>350</y>
-      <width>101</width>
-      <height>22</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string>Delete</string>
-    </property>
+    <widget class="QPushButton" name="pushButtonNewRecord">
+     <property name="geometry">
+      <rect>
+       <x>20</x>
+       <y>30</y>
+       <width>101</width>
+       <height>22</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>New Record...</string>
+     </property>
+    </widget>
+    <widget class="QPushButton" name="pushButtonEditRecord">
+     <property name="enabled">
+      <bool>false</bool>
+     </property>
+     <property name="geometry">
+      <rect>
+       <x>20</x>
+       <y>60</y>
+       <width>101</width>
+       <height>22</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>Edit...</string>
+     </property>
+    </widget>
+    <widget class="QPushButton" name="pushButtonDeleteRecord">
+     <property name="enabled">
+      <bool>false</bool>
+     </property>
+     <property name="geometry">
+      <rect>
+       <x>180</x>
+       <y>60</y>
+       <width>101</width>
+       <height>22</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>Delete</string>
+     </property>
+    </widget>
    </widget>
   </widget>
   <widget class="QMenuBar" name="menubar">
@@ -280,7 +293,7 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>826</width>
+     <width>793</width>
      <height>19</height>
     </rect>
    </property>
