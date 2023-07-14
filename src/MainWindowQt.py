@@ -1,11 +1,12 @@
 import logging
 
-from PyQt5 import QtWidgets, uic
+from PyQt5 import QtWidgets, uic, Qt, QtCore
 from PyQt5.QtCore import pyqtSlot
+from PyQt5.QtGui import QColor, QPalette
 from PyQt5.QtWidgets import QTableWidgetItem, QFileDialog, QDialog, QMessageBox
 
 from src import TimeAnalysis, Controller
-from src.models import TimeRecord
+from src.models import TimeRecord, HumanReadable
 
 
 class MainWindowQt(QtWidgets.QMainWindow):
@@ -25,6 +26,7 @@ class MainWindowQt(QtWidgets.QMainWindow):
         self.selected_raw_data = None
 
         self.show()
+        # print(QColor.colorNames())
 
     @pyqtSlot('int', name="on_tabData_currentChanged")
     def __tab_current_changed(self, index: int):
@@ -105,26 +107,40 @@ class MainWindowQt(QtWidgets.QMainWindow):
         total_overtime = '{:.2f}'.format(data.get_total_overtime_hours())
         self.labelOvertimeSummary.setText(total_overtime)
 
+        palette = QPalette()
+        palette.setColor(QPalette.Foreground, MainWindowQt.__get_overtime_color(data.get_total_overtime_seconds()))
+        self.labelOvertimeSummary.setPalette(palette)
+
         # fill by month
-        self.fill_table(self.tableByMonth, data.data_by_month, lambda scope: scope.scope_as_month())
-        self.fill_table(self.tableByDay, data.data_by_day, lambda scope: scope.scope_as_day())
+        self.fill_table(self.tableByMonth, data.data_by_month, lambda scope: scope.scope_as_month(), "Month")
+        self.fill_table(self.tableByDay, data.data_by_day, lambda scope: scope.scope_as_day(), "Day")
         self.fill_table_with_raw_data(self.tableByRecord, data.raw_data)
 
         logging.info('data successfully set to ui...')
 
     @staticmethod
-    def fill_table(table, data, scope_accessor):
+    def __get_overtime_color(seconds: int) -> QColor:
+        if seconds < 0:
+            return QColor(255, 0, 0)
+        else:
+            return QColor(255, 255, 255) if seconds == 0 else QColor(0, 200, 0)
+
+    @staticmethod
+    def fill_table(table, data, scope_accessor, scope_label: str):
         table.setColumnCount(3)
-        table.setHorizontalHeaderLabels(["Month", "Hours", "Overtime"])
+        table.setHorizontalHeaderLabels([scope_label, "Hours", "Overtime"])
 
         table.setRowCount(len(data))
         for index, (item) in enumerate(sorted(data, key=lambda _: _.scope, reverse=True)):
             item_scope = QTableWidgetItem()
             item_scope.setText(scope_accessor(item))
             item_worked = QTableWidgetItem()
-            item_worked.setText('{:.2f}'.format(item.working_hours()))
+            item_worked.setText(HumanReadable.seconds_to_human_readable(item.working_seconds))
+            item_worked.setTextAlignment(QtCore.Qt.AlignCenter | QtCore.Qt.AlignVCenter)
             item_overtime = QTableWidgetItem()
-            item_overtime.setText('{:.2f}'.format(item.overtime_hours()))
+            item_overtime.setText(HumanReadable.seconds_to_human_readable(item.overtime_seconds))
+            item_overtime.setTextAlignment(QtCore.Qt.AlignRight | QtCore.Qt.AlignVCenter)
+            item_overtime.setForeground(MainWindowQt.__get_overtime_color(item.overtime_seconds))
 
             # item_color.setBackground(get_rgb_from_hex(code))
             table.setItem(index, 0, item_scope)
@@ -151,11 +167,11 @@ class MainWindowQt(QtWidgets.QMainWindow):
 
             item_duration = QTableWidgetItem()
             item_duration.setText(item.get_duration_display())
+            item_duration.setTextAlignment(QtCore.Qt.AlignRight | QtCore.Qt.AlignVCenter)
 
             item_internal_id = QTableWidgetItem()
             item_internal_id.setText(str(item.internal_id))
 
-            # item_color.setBackground(get_rgb_from_hex(code))
             table.setItem(index, 0, item_scope)
             table.setItem(index, 1, item_start)
             table.setItem(index, 2, item_end)

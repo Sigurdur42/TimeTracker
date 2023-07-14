@@ -1,3 +1,4 @@
+import sys
 from typing import List
 import csv
 import io
@@ -48,13 +49,17 @@ class TimeRecordSerializer:
         reader = csv.reader(lines, delimiter=";")
         index = 0
         for row in reader:
-            parsed = TimeRecord(
-                internal_id=index,
-                start=datetime.strptime(f'{row[0]} {row[1]}', "%d.%m.%Y %H:%M"),
-                end=datetime.strptime(f'{row[0]} {row[2]}', "%d.%m.%Y %H:%M"),
-            )
-            index += 1
-            result.append(parsed)
+            try:
+                parsed = TimeRecord(
+                    internal_id=index,
+                    start=datetime.strptime(f'{row[0]} {row[1]}', "%d.%m.%Y %H:%M"),
+                    end=datetime.strptime(f'{row[0]} {row[2]}', "%d.%m.%Y %H:%M"),
+                )
+                index += 1
+                result.append(parsed)
+            except ValueError as err:
+                logging.error(f"Error parsing line {index} '{row}': {err}")
+
         return result
 
     def read_csv(self, file_content: str) -> List[TimeRecord]:

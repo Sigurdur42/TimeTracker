@@ -39,3 +39,13 @@ class ScopeSummary:
 
     def overtime_hours(self):
         return self.overtime_seconds / 60 / 60
+
+
+@dataclass
+class HumanReadable:
+    @staticmethod
+    def seconds_to_human_readable(seconds: int):
+        hours = abs(int(seconds / 60 / 60))
+        minutes = abs(int(seconds / 60 % 60))
+        sign = '-' if seconds < 0 else ''
+        return f"{sign}{hours:02d}:{minutes:02d}"
