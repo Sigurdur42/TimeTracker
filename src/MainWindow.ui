@@ -2,6 +2,9 @@
 <ui version="4.0">
  <class>MainWindow</class>
  <widget class="QMainWindow" name="MainWindow">
+  <property name="windowModality">
+   <enum>Qt::ApplicationModal</enum>
+  </property>
   <property name="geometry">
    <rect>
     <x>0</x>
@@ -12,6 +15,9 @@
   </property>
   <property name="windowTitle">
    <string>Time Tracker</string>
+  </property>
+  <property name="windowIcon">
+   <iconset theme="face-cool"/>
   </property>
   <widget class="QWidget" name="centralwidget">
    <widget class="QGroupBox" name="groupBox">
@@ -254,7 +260,7 @@
       <string>New Record...</string>
      </property>
     </widget>
-    <widget class="QPushButton" name="pushButtonEditRecord">
+    <widget class="QPushButton" name="pushButtonEdit">
      <property name="enabled">
       <bool>false</bool>
      </property>

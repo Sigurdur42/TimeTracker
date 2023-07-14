@@ -11,7 +11,7 @@ from src.models import TimeRecord
 class EditRecordDialog(QtWidgets.QDialog):
     def __init__(self, parent, data: TimeRecord):
         # Call the inherited classes __init__ method
-        super(EditRecordDialog, self).__init__()
+        super().__init__(parent)
         uic.loadUi('src/EditRecord.ui', self)
         logging.info('Loaded edit record dialog...')
 

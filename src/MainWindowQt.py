@@ -32,10 +32,10 @@ class MainWindowQt(QtWidgets.QMainWindow):
     @pyqtSlot('int', name="on_tabData_currentChanged")
     def __tab_current_changed(self, index: int):
         if index == 2:
-            self.pushButtonEditRecord.show()
+            self.pushButtonEdit.show()
             self.pushButtonDeleteRecord.show()
         else:
-            self.pushButtonEditRecord.hide()
+            self.pushButtonEdit.hide()
             self.pushButtonDeleteRecord.hide()
 
     @pyqtSlot(name="on_tableByRecord_itemSelectionChanged")
@@ -45,11 +45,11 @@ class MainWindowQt(QtWidgets.QMainWindow):
         if internal_id_widget is not None:
             internal_id = internal_id_widget.text()
             self.selected_raw_data = self.__controller.time_analysis.raw_data[int(internal_id)]
-            self.pushButtonEditRecord.setEnabled(True)
+            self.pushButtonEdit.setEnabled(True)
             self.pushButtonDeleteRecord.setEnabled(True)
         else:
             self.selected_raw_data = None
-            self.pushButtonEditRecord.setEnabled(False)
+            self.pushButtonEdit.setEnabled(False)
             self.pushButtonDeleteRecord.setEnabled(False)
 
     @pyqtSlot(name="on_pushButtonNewRecord_clicked")
@@ -66,14 +66,14 @@ class MainWindowQt(QtWidgets.QMainWindow):
             self.__controller.add_record(model, self.__controller.last_data_file)
             self.__set_data()
 
-    @pyqtSlot(name="on_pushButtonEditRecord_clicked")
+    @pyqtSlot(name="on_pushButtonEdit_clicked")
     def __on_edit_record(self):
         if self.__show_edit_record_dialog(self.selected_raw_data):
             self.__controller.record_has_been_updated()
             self.__set_data()
 
     @pyqtSlot(name="on_pushButtonDeleteRecord_clicked")
-    def __on_edit_record(self):
+    def __on_delete_record(self):
         message_box = QMessageBox()
         message_box.setIcon(QMessageBox.Question)
         message_box.setText("Do you want to delete the record?")

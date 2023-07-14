@@ -27,3 +27,8 @@ pip install -r requirements.txt
 ```
 pip freeze > requirements.txt
 ```
+
+## Create Distribution Package
+```
+pyinstaller main.py --onefile -n "TimeTracker" --add-binary "src/MainWindow.ui:src/." --add-binary "src/EditRecord.ui:src/."
+```
