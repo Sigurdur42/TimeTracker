@@ -1,4 +1,4 @@
-pyinstaller main.py -n "TimeTracker"  --add-binary "src/MainWindow.ui;src/." --add-binary "src/EditRecord.ui;src/."
+pyinstaller main.py -n "TimeTracker" --noconfirm --add-binary "src/MainWindow.ui;src/." --add-binary "src/EditRecord.ui;src/."
 If exist ".\dist\src" ( 
     Echo "dist\src already exists"
 ) Else ( 
