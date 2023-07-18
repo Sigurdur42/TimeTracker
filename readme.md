@@ -29,6 +29,14 @@ pip freeze > requirements.txt
 ```
 
 ## Create Distribution Package
+### Linux
+This script will create the executable single file and copy the required UI files.
 ```
-pyinstaller main.py --onefile -n "TimeTracker" --add-binary "src/MainWindow.ui:src/." --add-binary "src/EditRecord.ui:src/."
+./createPackage.sh
+```
+
+
+### Windows
+```
+pyinstaller main.py -n "TimeTracker" 
 ```
