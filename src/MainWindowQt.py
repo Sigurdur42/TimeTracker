@@ -2,7 +2,7 @@ import logging
 
 from PyQt5 import QtWidgets, uic, Qt, QtCore
 from PyQt5.QtCore import pyqtSlot
-from PyQt5.QtGui import QColor, QPalette
+from PyQt5.QtGui import QColor, QPalette, QIcon
 from PyQt5.QtWidgets import QTableWidgetItem, QFileDialog, QDialog, QMessageBox
 
 from src import TimeAnalysis, Controller
@@ -19,6 +19,7 @@ class MainWindowQt(QtWidgets.QMainWindow):
         uic.loadUi('src/MainWindow.ui', self)
         logging.info('Loaded main window...')
         self.setWindowTitle(f"Time Tracker V{version}")
+        self.setWindowIcon(QIcon('src/clock.png'))
 
         # init the controller
         self.__controller = controller
@@ -137,8 +138,9 @@ class MainWindowQt(QtWidgets.QMainWindow):
             item_scope = QTableWidgetItem()
             item_scope.setText(scope_accessor(item))
             item_worked = QTableWidgetItem()
-            item_worked.setText(HumanReadable.seconds_to_human_readable(item.working_seconds))
+            item_worked.setText(f"{HumanReadable.seconds_to_human_readable(item.working_seconds)} ({HumanReadable.seconds_to_decimal_display(item.working_seconds)})")
             item_worked.setTextAlignment(QtCore.Qt.AlignCenter | QtCore.Qt.AlignVCenter)
+
             item_overtime = QTableWidgetItem()
             item_overtime.setText(HumanReadable.seconds_to_human_readable(item.overtime_seconds))
             item_overtime.setTextAlignment(QtCore.Qt.AlignRight | QtCore.Qt.AlignVCenter)

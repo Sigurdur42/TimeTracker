@@ -20,7 +20,7 @@ class TimeRecordSerializer:
 
     def generate_csv(self, data: List[TimeRecord]) -> str:
         output = io.StringIO()
-        writer = csv.writer(output, quoting=csv.QUOTE_MINIMAL, delimiter=";")
+        writer = csv.writer(output, quoting=csv.QUOTE_MINIMAL, delimiter=";", lineterminator="\r\n")
 
         for rec in data:
             row = (
@@ -49,6 +49,9 @@ class TimeRecordSerializer:
         reader = csv.reader(lines, delimiter=";")
         index = 0
         for row in reader:
+            if len(row) == 0:
+                continue
+
             try:
                 parsed = TimeRecord(
                     internal_id=index,

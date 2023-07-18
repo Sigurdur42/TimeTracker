@@ -17,7 +17,8 @@
    <string>Time Tracker</string>
   </property>
   <property name="windowIcon">
-   <iconset theme="face-cool"/>
+   <iconset>
+    <normaloff>../9ce619e7/clock.png</normaloff>../9ce619e7/clock.png</iconset>
   </property>
   <widget class="QWidget" name="centralwidget">
    <widget class="QGroupBox" name="groupBox">
