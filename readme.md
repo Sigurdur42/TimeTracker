@@ -37,6 +37,7 @@ This script will create the executable single file and copy the required UI file
 
 
 ### Windows
+This script will create the executable single file and copy the required UI files.
 ```
-pyinstaller main.py -n "TimeTracker" 
+./createPackage.bat
 ```
