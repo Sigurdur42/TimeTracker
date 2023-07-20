@@ -9,7 +9,7 @@ from src.Controller import Controller
 from src.MainWindowQt import MainWindowQt
 
 applicationName = "TimeTracker"
-version = '1.0.4'
+version = '1.0.5'
 
 
 def main():

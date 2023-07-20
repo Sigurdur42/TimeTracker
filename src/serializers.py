@@ -33,13 +33,16 @@ class TimeRecordSerializer:
 
         return output.getvalue()
 
-    def read_from_csv_file(self, fileName: str) -> List[TimeRecord]:
-        path = Path(fileName)
+    def read_from_csv_file(self, file_name: str) -> List[TimeRecord]:
+        if file_name is None or file_name == '':
+            return list[TimeRecord]()
+
+        path = Path(file_name)
         if not path.exists():
             return list[TimeRecord]()
 
-        logging.info(f"Reading data from csv file {fileName}")
-        with open(fileName, "r") as file:
+        logging.info(f"Reading data from csv file {file_name}")
+        with open(file_name, "r") as file:
             lines = file.readlines()
             return self.read_csv_from_lines(lines)
 
