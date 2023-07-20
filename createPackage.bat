@@ -1,5 +1,5 @@
 pip install -r requirements.txt
-pyinstaller main.py -n "TimeTracker" --noconfirm --add-binary "src/MainWindow.ui;src/." --add-binary "src/EditRecord.ui;src/." -i "src/clock.ico"
+pyinstaller main.py -n "TimeTracker" --noconfirm --add-binary "src/MainWindow.ui;src/."  -i "src/clock.ico"
 If exist ".\dist\src" ( 
     Echo "dist\src already exists"
 ) Else ( 
