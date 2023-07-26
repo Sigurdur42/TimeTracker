@@ -16,7 +16,7 @@ class BetterConfigParser:
             if not self.__parser.has_section(section):
                 self.__parser.add_section(section)
 
-            self.__parser.set(section, 'LastDataFile', default_value)
+            self.__parser.set(section, key, default_value)
             self.__write_data_file()
             return default_value
 

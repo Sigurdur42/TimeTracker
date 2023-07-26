@@ -21,6 +21,8 @@ class MainWindowQt(QtWidgets.QMainWindow):
         self.setWindowTitle(f"Time Tracker V{version}")
         self.setWindowIcon(QIcon('src/clock.png'))
 
+        self.editOpenedFile.setAlignment(QtCore.Qt.AlignVCenter | QtCore.Qt.AlignLeft)
+
         # init the controller
         self.__controller = controller
         self.__load_and_set_data(self.__controller.last_data_file)
@@ -103,7 +105,7 @@ class MainWindowQt(QtWidgets.QMainWindow):
 
     def __set_data(self):
         logging.info('setting data to ui...')
-        self.editOpenedFile.setPlainText(self.__controller.last_data_file)
+        self.editOpenedFile.setText(self.__controller.last_data_file)
 
         data = self.__controller.time_analysis
 
