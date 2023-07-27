@@ -46,7 +46,10 @@ class HumanReadable:
     @staticmethod
     def seconds_to_human_readable(seconds: int) -> str:
         hours = abs(int(seconds / 60 / 60))
-        minutes = abs(int(seconds / 60 % 60))
+        minutes = int(seconds / 60 % 60)
+        if seconds < 0 and minutes != 0:
+            minutes = 60 - int(seconds / 60 % 60)
+
         sign = '-' if seconds < 0 else ''
         return f"{sign}{hours:02d}:{minutes:02d}"
 

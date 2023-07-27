@@ -8,11 +8,13 @@ class TimeAnalysisWithRealDataTests(unittest.TestCase):
 
     def setUp(self) -> None:
         serializer = TimeRecordSerializer()
-        self.loaded_data = serializer.read_from_csv_file('./TestData/April_to_June.csv')
+        self.loaded_data = serializer.read_from_csv_file('./TestData/April_to_July.csv')
         self.target = TimeAnalysis(self.loaded_data)
 
     def test_verify_day_calculations(self):
         data = [
+            ('26.07.2023', 7 * 60 + 50, -10),
+
             ('03.04.2023', 5.5 * 60, -2.5 * 60),
             ('04.04.2023', 7.5 * 60, -0.5 * 60),
             ('05.04.2023', 9 * 60 + 20, 1 * 60 + 20),
