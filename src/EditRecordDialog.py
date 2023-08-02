@@ -1,11 +1,10 @@
 from datetime import datetime
 
-from PyQt5 import QtWidgets, uic
+from PyQt6 import QtWidgets
 import logging
 
-from PyQt5.QtCore import pyqtSlot
-from PyQt5.QtWidgets import QDialog, QVBoxLayout, QFormLayout, QDateEdit, QTimeEdit, QDialogButtonBox, QLayout, \
-    QPushButton
+from PyQt6.QtWidgets import QDialog, QVBoxLayout, QFormLayout, QDateEdit, QTimeEdit, QDialogButtonBox, QLayout
+
 
 from src.models import TimeRecord
 
@@ -32,17 +31,17 @@ class EditRecordDialog(QtWidgets.QDialog):
         outer_layout.addLayout(form_layout)
 
         button_box = QVBoxLayout()
-        dialog_button_box = QDialogButtonBox(QDialogButtonBox.Ok | QDialogButtonBox.Cancel)
-        # dialog_button_box.accepted.connect(self.accept)
+        dialog_button_box = (
+            QDialogButtonBox(QDialogButtonBox.StandardButton.Ok | QDialogButtonBox.StandardButton.Cancel))
 
-        ok_button = dialog_button_box.button(QDialogButtonBox.Ok)
+        ok_button = dialog_button_box.button(QDialogButtonBox.StandardButton.Ok)
         ok_button.clicked.connect(self.my_accept)
         dialog_button_box.rejected.connect(self.reject)
 
         button_box.addWidget(dialog_button_box)
         outer_layout.addLayout(button_box)
 
-        outer_layout.setSizeConstraint(QLayout.SetFixedSize)
+        outer_layout.setSizeConstraint(QLayout.SizeConstraint.SetFixedSize)
         self.setLayout(outer_layout)
 
         self.model = data
@@ -51,7 +50,7 @@ class EditRecordDialog(QtWidgets.QDialog):
         self.timeEditStart.setDateTime(data.start)
         self.timeEditEnd.setDateTime(data.end)
 
-    def my_accept(self):
+    def my_accept(self, checked = False):
         date = self.dateEdit.dateTime().date()
         start = self.timeEditStart.dateTime().time()
         end = self.timeEditEnd.dateTime().time()

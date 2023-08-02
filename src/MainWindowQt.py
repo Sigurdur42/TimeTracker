@@ -1,15 +1,24 @@
 import logging
 
-from PyQt5 import QtWidgets, uic, Qt, QtCore
-from PyQt5.QtCore import pyqtSlot
-from PyQt5.QtGui import QColor, QPalette, QIcon
-from PyQt5.QtWidgets import QTableWidgetItem, QFileDialog, QDialog, QMessageBox
+from PyQt6 import QtWidgets, uic
+from PyQt6.QtCore import Qt
+from PyQt6.QtCore import pyqtSlot
+from PyQt6.QtGui import QColor, QPalette, QIcon
+from PyQt6.QtWidgets import QTableWidgetItem, QFileDialog, QDialog, QMessageBox
 
-from src import TimeAnalysis, Controller
+from src import Controller
 from src.models import TimeRecord, HumanReadable
 
 
 class MainWindowQt(QtWidgets.QMainWindow):
+    pushButtonDeleteRecord = None
+    tableByRecord = None
+    pushButtonEdit = None
+    editOpenedFile = None
+    labelOvertimeSummary = None
+    tableByMonth = None
+    tableByDay = None
+
     def __init__(self, controller: Controller, version: str):
 
         # Call the inherited classes __init__ method
@@ -21,7 +30,7 @@ class MainWindowQt(QtWidgets.QMainWindow):
         self.setWindowTitle(f"Time Tracker V{version}")
         self.setWindowIcon(QIcon('src/clock.png'))
 
-        self.editOpenedFile.setAlignment(QtCore.Qt.AlignVCenter | QtCore.Qt.AlignLeft)
+        self.editOpenedFile.setAlignment(Qt.AlignmentFlag.AlignVCenter | Qt.AlignmentFlag.AlignLeft)
 
         # init the controller
         self.__controller = controller
@@ -78,11 +87,11 @@ class MainWindowQt(QtWidgets.QMainWindow):
     @pyqtSlot(name="on_pushButtonDeleteRecord_clicked")
     def __on_delete_record(self):
         message_box = QMessageBox()
-        message_box.setIcon(QMessageBox.Question)
+        message_box.setIcon(QMessageBox.Icon.Question)
         message_box.setText("Do you want to delete the record?")
-        message_box.setStandardButtons(QMessageBox.Yes | QMessageBox.No)
+        message_box.setStandardButtons(QMessageBox.StandardButton.Yes | QMessageBox.StandardButton.No)
 
-        if message_box.exec_() == QMessageBox.Yes:
+        if message_box.exec() == QMessageBox.StandardButton.Yes:
             self.__controller.delete_record(self.selected_raw_data)
             self.__set_data()
 
@@ -90,12 +99,12 @@ class MainWindowQt(QtWidgets.QMainWindow):
         from src.EditRecordDialog import EditRecordDialog
 
         dialog = EditRecordDialog(self, model)
-        return dialog.exec_() == QDialog.Accepted
+        return dialog.exec() == QDialog.DialogCode.Accepted
 
     @pyqtSlot(name="on_buttonOpenFilePicker_clicked")
     def __select_file_via_picker(self):
         picker = QFileDialog(self, caption="Select data file", filter="Data files (*.csv)")
-        if picker.exec_():
+        if picker.exec():
             file_name = picker.selectedFiles()[0]
             self.__load_and_set_data(file_name)
 
@@ -113,7 +122,7 @@ class MainWindowQt(QtWidgets.QMainWindow):
         self.labelOvertimeSummary.setText(total_overtime)
 
         palette = QPalette()
-        palette.setColor(QPalette.Foreground, MainWindowQt.__get_overtime_color(data.get_total_overtime_seconds()))
+        palette.setColor(QPalette.ColorRole.Text, MainWindowQt.__get_overtime_color(data.get_total_overtime_seconds()))
         self.labelOvertimeSummary.setPalette(palette)
 
         # fill by month
@@ -140,12 +149,15 @@ class MainWindowQt(QtWidgets.QMainWindow):
             item_scope = QTableWidgetItem()
             item_scope.setText(scope_accessor(item))
             item_worked = QTableWidgetItem()
-            item_worked.setText(f"{HumanReadable.seconds_to_human_readable(item.working_seconds)} ({HumanReadable.seconds_to_decimal_display(item.working_seconds)})")
-            item_worked.setTextAlignment(QtCore.Qt.AlignCenter | QtCore.Qt.AlignVCenter)
+
+            working_seconds = HumanReadable.seconds_to_human_readable(item.working_seconds)
+            working_decimal = HumanReadable.seconds_to_decimal_display(item.working_seconds)
+            item_worked.setText(f"{working_seconds} ({working_decimal})")
+            item_worked.setTextAlignment(Qt.AlignmentFlag.AlignCenter | Qt.AlignmentFlag.AlignVCenter)
 
             item_overtime = QTableWidgetItem()
             item_overtime.setText(HumanReadable.seconds_to_human_readable(item.overtime_seconds))
-            item_overtime.setTextAlignment(QtCore.Qt.AlignRight | QtCore.Qt.AlignVCenter)
+            item_overtime.setTextAlignment(Qt.AlignmentFlag.AlignRight | Qt.AlignmentFlag.AlignVCenter)
             item_overtime.setForeground(MainWindowQt.__get_overtime_color(item.overtime_seconds))
 
             # item_color.setBackground(get_rgb_from_hex(code))
@@ -173,7 +185,7 @@ class MainWindowQt(QtWidgets.QMainWindow):
 
             item_duration = QTableWidgetItem()
             item_duration.setText(item.get_duration_display())
-            item_duration.setTextAlignment(QtCore.Qt.AlignRight | QtCore.Qt.AlignVCenter)
+            item_duration.setTextAlignment(Qt.AlignmentFlag.AlignRight | Qt.AlignmentFlag.AlignVCenter)
 
             item_internal_id = QTableWidgetItem()
             item_internal_id.setText(str(item.internal_id))

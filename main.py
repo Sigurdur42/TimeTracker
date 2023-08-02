@@ -1,7 +1,7 @@
 import logging
 import sys
 
-from PyQt5.QtWidgets import QApplication
+from PyQt6.QtWidgets import QApplication
 from appdata import AppDataPaths
 
 from src.BetterConfigParser import BetterConfigParser
@@ -9,7 +9,7 @@ from src.Controller import Controller
 from src.MainWindowQt import MainWindowQt
 
 applicationName = "TimeTracker"
-version = '1.0.9'
+version = '1.1.0'
 
 
 def main():
@@ -30,7 +30,7 @@ def main():
     # QT variant
     app = QApplication(sys.argv)
     window = MainWindowQt(controller, version)
-    app.exec_()
+    app.exec()
 
 
 if __name__ == "__main__":
