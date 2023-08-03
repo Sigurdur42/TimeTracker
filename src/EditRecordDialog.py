@@ -47,8 +47,8 @@ class EditRecordDialog(QtWidgets.QDialog):
         self.model = data
 
         self.dateEdit.setDateTime(data.start)
-        self.timeEditStart.setDateTime(data.start)
-        self.timeEditEnd.setDateTime(data.end)
+        self.timeEditStart.setTime(data.start.time())
+        self.timeEditEnd.setTime(data.end.time())
 
     def my_accept(self, checked = False):
         date = self.dateEdit.dateTime().date()

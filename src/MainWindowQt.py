@@ -56,15 +56,16 @@ class MainWindowQt(QtWidgets.QMainWindow):
         internal_id_widget = self.tableByRecord.item(current_row, 4)
         if internal_id_widget is not None:
             internal_id = int(internal_id_widget.text())
-
             found_data = filter(lambda _: _.internal_id == internal_id, self.__controller.time_analysis.raw_data)
             self.selected_raw_data = next(found_data, None)
             self.pushButtonEdit.setEnabled(True)
             self.pushButtonDeleteRecord.setEnabled(True)
+            logging.debug(f'Selected record with id {internal_id}: {str(self.selected_raw_data)}.')
         else:
             self.selected_raw_data = None
             self.pushButtonEdit.setEnabled(False)
             self.pushButtonDeleteRecord.setEnabled(False)
+            logging.debug(f'Selected no record.')
 
     @pyqtSlot(name="on_pushButtonNewRecord_clicked")
     def __on_new_record(self):
@@ -99,7 +100,7 @@ class MainWindowQt(QtWidgets.QMainWindow):
 
     def __show_edit_record_dialog(self, model: TimeRecord) -> bool:
         from src.EditRecordDialog import EditRecordDialog
-
+        logging.info(f'Shall edit record {model}...')
         dialog = EditRecordDialog(self, model)
         return dialog.exec() == QDialog.DialogCode.Accepted
 
