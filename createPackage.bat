@@ -1,5 +1,5 @@
 pip install -r requirements.txt
-pyinstaller main.py -n "TimeTracker" --noconfirm --add-binary "src/MainWindow.ui;src/."  -i "src/clock.ico"
+pyinstaller .\TimeTracker.spec --noconfirm
 If exist ".\dist\src" ( 
     Echo "dist\src already exists"
 ) Else ( 

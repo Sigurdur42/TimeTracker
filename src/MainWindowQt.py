@@ -1,4 +1,5 @@
 import logging
+import os
 
 from PyQt6 import QtWidgets, uic
 from PyQt6.QtCore import Qt
@@ -28,7 +29,9 @@ class MainWindowQt(QtWidgets.QMainWindow):
         uic.loadUi('src/MainWindow.ui', self)
         logging.info('Loaded main window...')
         self.setWindowTitle(f"Time Tracker V{version}")
-        self.setWindowIcon(QIcon('src/clock.png'))
+        
+        base_path = os.path.dirname(__file__)
+        self.setWindowIcon(QIcon(os.path.join(base_path, 'clock.png')))
 
         self.editOpenedFile.setAlignment(Qt.AlignmentFlag.AlignVCenter | Qt.AlignmentFlag.AlignLeft)
 

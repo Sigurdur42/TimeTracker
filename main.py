@@ -1,8 +1,10 @@
 import logging
+import os
 import sys
 
 from PyQt6.QtWidgets import QApplication
 from appdata import AppDataPaths
+from PyQt6.QtGui import QIcon
 
 from src.BetterConfigParser import BetterConfigParser
 from src.Controller import Controller
@@ -29,6 +31,9 @@ def main():
 
     # QT variant
     app = QApplication(sys.argv)
+    
+    base_path = os.path.dirname(__file__)
+    app.setWindowIcon(QIcon(os.path.join(base_path, 'src','clock.png')))
     window = MainWindowQt(controller, version)
     app.exec()
 
