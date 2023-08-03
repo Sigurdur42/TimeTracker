@@ -55,8 +55,10 @@ class MainWindowQt(QtWidgets.QMainWindow):
         current_row = self.tableByRecord.currentRow()
         internal_id_widget = self.tableByRecord.item(current_row, 4)
         if internal_id_widget is not None:
-            internal_id = internal_id_widget.text()
-            self.selected_raw_data = self.__controller.time_analysis.raw_data[int(internal_id)]
+            internal_id = int(internal_id_widget.text())
+
+            found_data = filter(lambda _: _.internal_id == internal_id, self.__controller.time_analysis.raw_data)
+            self.selected_raw_data = next(found_data, None)
             self.pushButtonEdit.setEnabled(True)
             self.pushButtonDeleteRecord.setEnabled(True)
         else:
