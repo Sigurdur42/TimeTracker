@@ -29,7 +29,7 @@ class MainWindowQt(QtWidgets.QMainWindow):
         uic.loadUi('src/MainWindow.ui', self)
         logging.info('Loaded main window...')
         self.setWindowTitle(f"Time Tracker V{version}")
-        
+
         base_path = os.path.dirname(__file__)
         self.setWindowIcon(QIcon(os.path.join(base_path, 'clock.png')))
 
@@ -77,8 +77,8 @@ class MainWindowQt(QtWidgets.QMainWindow):
         model = TimeRecord(
             internal_id=len(self.__controller.time_analysis.raw_data),
             start=datetime.now(),
-            end=datetime.now()
-        )
+            end=datetime.now(),
+            all_overtime=False)
 
         if self.__show_edit_record_dialog(model):
             self.__controller.add_record(model, self.__controller.last_data_file)
