@@ -12,7 +12,7 @@ class TimeAnalysis:
         self.data_by_day = list[ScopeSummary]()
         self.data_by_month = list[ScopeSummary]()
         self.data_by_year = list[ScopeSummary]()
-        self.raw_data = data
+        self.raw_data = sorted(data, key=lambda row: row.start)
         self.analyse_raw_data()
 
     def analyse_raw_data(self):
@@ -110,6 +110,7 @@ class TimeAnalysis:
 
     def add_record(self, new_record: TimeRecord):
         self.raw_data.append(new_record)
+        self.raw_data = sorted(self.raw_data, key=lambda row: row.start)
         self.analyse_raw_data()
 
     def dump_analysis(self):
