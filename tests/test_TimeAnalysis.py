@@ -23,7 +23,10 @@ class TimeAnalysisTests(unittest.TestCase):
 
                     # normal workday -> 1h overtime
                     '03.03.2023;07:00;12:00',
-                    '03.03.2023;13:00;17:00']
+                    '03.03.2023;13:00;17:00',
+
+                    # normal weekday, but marked as all overtime
+                    '06.04.2024;13:00;17:00;True',]
         serializer = TimeRecordSerializer()
         data = serializer.read_csv_from_lines(data_csv)
 
@@ -31,12 +34,14 @@ class TimeAnalysisTests(unittest.TestCase):
         self.__verify_data(target.data_by_day, "%d.%m.%Y", '01.01.2023', 7.5 * 60 * 60, 7.5 * 60 * 60)
         self.__verify_data(target.data_by_day, "%d.%m.%Y", '02.01.2023', 3.5 * 60 * 60, -(4.5 * 60 * 60))
         self.__verify_data(target.data_by_day, "%d.%m.%Y", '03.03.2023', 9 * 60 * 60, 1 * 60 * 60)
+        self.__verify_data(target.data_by_day, "%d.%m.%Y", '06.04.2024', 4 * 60 * 60, 4 * 60 * 60)
 
         self.__verify_data(target.data_by_month, "%m.%Y", '01.2023', 15 * 60 * 60, -1 * 60 * 60)
         self.__verify_data(target.data_by_month, "%m.%Y", '02.2023', 4 * 60 * 60, -4 * 60 * 60)
         self.__verify_data(target.data_by_month, "%m.%Y", '03.2023', 9 * 60 * 60, 1 * 60 * 60)
 
         self.__verify_data(target.data_by_year, "%Y", '2023', 28 * 60 * 60, -4 * 60 * 60)
+        self.__verify_data(target.data_by_year, "%Y", '2024', 4 * 60 * 60, 4 * 60 * 60)
 
     def __verify_data(
             self,

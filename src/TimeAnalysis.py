@@ -73,6 +73,7 @@ class TimeAnalysis:
     @staticmethod
     def __summarize_single_day(data: List[TimeRecord]) -> ScopeSummary:
         working_seconds = 0
+        all_overtime = next((f for f in data if f.all_overtime), False)
         for part in data:
             working_seconds += (part.end - part.start).seconds
 
@@ -87,7 +88,10 @@ class TimeAnalysis:
             case 6:
                 overtime_seconds = working_seconds
             case _:
-                overtime_seconds = working_seconds - hours_per_day
+                if all_overtime:
+                    overtime_seconds = working_seconds
+                else:
+                    overtime_seconds = working_seconds - hours_per_day
 
         return ScopeSummary(
             scope=day,

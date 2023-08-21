@@ -7,6 +7,7 @@ class TimeRecord:
     internal_id: int
     start: datetime
     end: datetime
+    all_overtime: bool
 
     def scope_as_day(self):
         return self.start.strftime('%d.%m.%Y')

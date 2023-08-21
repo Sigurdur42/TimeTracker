@@ -11,7 +11,7 @@ from src.Controller import Controller
 from src.MainWindowQt import MainWindowQt
 
 applicationName = "TimeTracker"
-version = '1.1.1'
+version = '1.1.2'
 
 
 def main():
