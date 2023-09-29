@@ -78,7 +78,8 @@ class MainWindowQt(QtWidgets.QMainWindow):
             internal_id=len(self.__controller.time_analysis.raw_data),
             start=datetime.now(),
             end=datetime.now(),
-            all_overtime=False)
+            all_overtime=False,
+            comment=None)
 
         if self.__show_edit_record_dialog(model):
             self.__controller.add_record(model, self.__controller.last_data_file)
