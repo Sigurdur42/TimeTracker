@@ -27,7 +27,8 @@ class TimeRecordSerializer:
                 rec.start.strftime("%d.%m.%Y"),
                 rec.start.strftime("%H:%M"),
                 rec.end.strftime("%H:%M"),
-                'True' if rec.all_overtime else ''
+                'True' if rec.all_overtime else '',
+                rec.comment
             )
 
             writer.writerow(row)
@@ -61,11 +62,16 @@ class TimeRecordSerializer:
                 if len(row) > 3:
                     all_overtime = bool(row[3])
 
+                comment = None
+                if len(row) > 4:
+                    comment = str(row[4])
+
                 parsed = TimeRecord(
                     internal_id=index,
                     start=datetime.strptime(f'{row[0]} {row[1]}', "%d.%m.%Y %H:%M"),
                     end=datetime.strptime(f'{row[0]} {row[2]}', "%d.%m.%Y %H:%M"),
-                    all_overtime=all_overtime
+                    all_overtime=all_overtime,
+                    comment=comment
                 )
                 index += 1
                 result.append(parsed)

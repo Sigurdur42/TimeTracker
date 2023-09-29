@@ -4,7 +4,7 @@ from PyQt6 import QtWidgets
 import logging
 
 from PyQt6.QtWidgets import QDialog, QVBoxLayout, QFormLayout, QDateEdit, QTimeEdit, QDialogButtonBox, QLayout, \
-    QCheckBox
+    QCheckBox, QLineEdit
 
 from src.models import TimeRecord
 
@@ -30,6 +30,9 @@ class EditRecordDialog(QtWidgets.QDialog):
         self.allOvertimeCheck = QCheckBox()
         form_layout.addRow("All Overtime:", self.allOvertimeCheck)
 
+        self.comment = QLineEdit()
+        form_layout.addRow("Comment:", self.comment)
+
         outer_layout = QVBoxLayout()
         outer_layout.addLayout(form_layout)
 
@@ -45,6 +48,7 @@ class EditRecordDialog(QtWidgets.QDialog):
         outer_layout.addLayout(button_box)
 
         outer_layout.setSizeConstraint(QLayout.SizeConstraint.SetFixedSize)
+
         self.setLayout(outer_layout)
 
         self.model = data
@@ -53,12 +57,14 @@ class EditRecordDialog(QtWidgets.QDialog):
         self.timeEditStart.setTime(data.start.time())
         self.timeEditEnd.setTime(data.end.time())
         self.allOvertimeCheck.setChecked(data.all_overtime)
+        self.comment.setText(data.comment)
 
     def my_accept(self, checked=False):
         date = self.dateEdit.dateTime().date()
         start = self.timeEditStart.dateTime().time()
         end = self.timeEditEnd.dateTime().time()
 
+        self.model.comment = self.comment.text()
         self.model.all_overtime = self.allOvertimeCheck.isChecked()
         self.model.start = datetime(
             date.year(),

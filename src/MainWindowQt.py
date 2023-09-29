@@ -56,7 +56,7 @@ class MainWindowQt(QtWidgets.QMainWindow):
     @pyqtSlot(name="on_tableByRecord_itemSelectionChanged")
     def __by_record_item_changed(self):
         current_row = self.tableByRecord.currentRow()
-        internal_id_widget = self.tableByRecord.item(current_row, 5)
+        internal_id_widget = self.tableByRecord.item(current_row, 6)
         if internal_id_widget is not None:
             internal_id = int(internal_id_widget.text())
             found_data = filter(lambda _: _.internal_id == internal_id, self.__controller.time_analysis.raw_data)
@@ -175,7 +175,7 @@ class MainWindowQt(QtWidgets.QMainWindow):
 
     @staticmethod
     def fill_table_with_raw_data(table, data):
-        labels = ["Date", "Start", "End", "Duration", "All Overtime", "id"]
+        labels = ["Date", "Start", "End", "Duration", "Comment", "OT", "id"]
         table.setColumnCount(len(labels))
         table.setHorizontalHeaderLabels(labels)
 
@@ -194,6 +194,10 @@ class MainWindowQt(QtWidgets.QMainWindow):
             item_duration.setText(item.get_duration_display())
             item_duration.setTextAlignment(Qt.AlignmentFlag.AlignRight | Qt.AlignmentFlag.AlignVCenter)
 
+            item_comment = QTableWidgetItem()
+            item_comment.setText(item.comment)
+            item_comment.setTextAlignment(Qt.AlignmentFlag.AlignLeft | Qt.AlignmentFlag.AlignVCenter)
+
             iten_all_overtime = QTableWidgetItem()
             iten_all_overtime.setText("Yes" if item.all_overtime else "No")
             iten_all_overtime.setTextAlignment(Qt.AlignmentFlag.AlignCenter | Qt.AlignmentFlag.AlignVCenter)
@@ -205,7 +209,8 @@ class MainWindowQt(QtWidgets.QMainWindow):
             table.setItem(index, 1, item_start)
             table.setItem(index, 2, item_end)
             table.setItem(index, 3, item_duration)
-            table.setItem(index, 4, iten_all_overtime)
-            table.setItem(index, 5, item_internal_id)
+            table.setItem(index, 4, item_comment)
+            table.setItem(index, 5, iten_all_overtime)
+            table.setItem(index, 6, item_internal_id)
 
             table.resizeColumnsToContents()

@@ -9,8 +9,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>818</width>
-    <height>571</height>
+    <width>1073</width>
+    <height>577</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -101,7 +101,7 @@
      <rect>
       <x>320</x>
       <y>100</y>
-      <width>471</width>
+      <width>731</width>
       <height>421</height>
      </rect>
     </property>
@@ -113,12 +113,12 @@
       <rect>
        <x>10</x>
        <y>20</y>
-       <width>461</width>
+       <width>721</width>
        <height>391</height>
       </rect>
      </property>
      <property name="currentIndex">
-      <number>2</number>
+      <number>0</number>
      </property>
      <widget class="QWidget" name="tabByMonth">
       <attribute name="title">
@@ -129,7 +129,7 @@
         <rect>
          <x>10</x>
          <y>10</y>
-         <width>431</width>
+         <width>691</width>
          <height>331</height>
         </rect>
        </property>
@@ -161,7 +161,7 @@
         <rect>
          <x>10</x>
          <y>10</y>
-         <width>431</width>
+         <width>691</width>
          <height>331</height>
         </rect>
        </property>
@@ -199,7 +199,7 @@
         <rect>
          <x>10</x>
          <y>10</y>
-         <width>431</width>
+         <width>691</width>
          <height>331</height>
         </rect>
        </property>
@@ -294,7 +294,7 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>818</width>
+     <width>1073</width>
      <height>28</height>
     </rect>
    </property>
