@@ -9,8 +9,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>793</width>
-    <height>568</height>
+    <width>818</width>
+    <height>571</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -26,7 +26,7 @@
      <rect>
       <x>10</x>
       <y>10</y>
-      <width>790</width>
+      <width>801</width>
       <height>81</height>
      </rect>
     </property>
@@ -36,9 +36,9 @@
     <widget class="QPushButton" name="buttonOpenFilePicker">
      <property name="geometry">
       <rect>
-       <x>700</x>
+       <x>679</x>
        <y>30</y>
-       <width>80</width>
+       <width>111</width>
        <height>31</height>
       </rect>
      </property>
@@ -51,7 +51,7 @@
       <rect>
        <x>10</x>
        <y>31</y>
-       <width>681</width>
+       <width>661</width>
        <height>31</height>
       </rect>
      </property>
@@ -113,7 +113,7 @@
       <rect>
        <x>10</x>
        <y>20</y>
-       <width>451</width>
+       <width>461</width>
        <height>391</height>
       </rect>
      </property>
@@ -129,8 +129,8 @@
         <rect>
          <x>10</x>
          <y>10</y>
-         <width>421</width>
-         <height>341</height>
+         <width>431</width>
+         <height>331</height>
         </rect>
        </property>
        <property name="editTriggers">
@@ -161,8 +161,8 @@
         <rect>
          <x>10</x>
          <y>10</y>
-         <width>421</width>
-         <height>341</height>
+         <width>431</width>
+         <height>331</height>
         </rect>
        </property>
        <property name="sizePolicy">
@@ -199,8 +199,8 @@
         <rect>
          <x>10</x>
          <y>10</y>
-         <width>421</width>
-         <height>341</height>
+         <width>431</width>
+         <height>331</height>
         </rect>
        </property>
        <property name="sizePolicy">
@@ -294,8 +294,8 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>793</width>
-     <height>19</height>
+     <width>818</width>
+     <height>28</height>
     </rect>
    </property>
   </widget>

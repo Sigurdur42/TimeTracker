@@ -2,6 +2,8 @@ import logging
 import os
 import sys
 
+import darkdetect
+import qdarktheme
 from PyQt6.QtWidgets import QApplication
 from appdata import AppDataPaths
 from PyQt6.QtGui import QIcon
@@ -11,7 +13,7 @@ from src.Controller import Controller
 from src.MainWindowQt import MainWindowQt
 
 applicationName = "TimeTracker"
-version = '1.1.3'
+version = '1.1.4'
 
 
 def main():
@@ -31,6 +33,11 @@ def main():
 
     # QT variant
     app = QApplication(sys.argv)
+
+    if darkdetect.isDark():
+        qdarktheme.setup_theme("dark")
+    else:
+        qdarktheme.setup_theme("light")
     
     base_path = os.path.dirname(__file__)
     app.setWindowIcon(QIcon(os.path.join(base_path, 'src','clock.png')))
