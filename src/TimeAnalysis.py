@@ -31,19 +31,19 @@ class TimeAnalysis:
         grouped = {
             key: list(group) for key, group in itertools.groupby(self.raw_data, by_day)
         }
-
+        
         self.data_by_day.clear()
+        self.data_by_day_by_topic.clear()
         for single_day in grouped.values():
             self.data_by_day.append(self.__summarize_single_day(single_day))
 
-            day_by_comment = {
-                key: list(group)
-                for key, group in itertools.groupby(single_day, by_comment)
-            }
+            sorted_by_comment = sorted(single_day,key= by_comment)
+            days =  itertools.groupby(sorted_by_comment, by_comment)         
 
-            for single_day_comment in day_by_comment.values():
-                r = self.__summarize_single_day(single_day_comment)
-                r.comment = single_day_comment[0].comment
+            for comment, values in days:
+                list_values = list(values)
+                r = self.__summarize_single_day(list_values)
+                r.comment = comment
                 self.data_by_day_by_topic.append(r)
 
     def __analyse_data_by_month(self):

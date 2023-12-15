@@ -43,6 +43,22 @@ class TimeAnalysisTests(unittest.TestCase):
         self.__verify_data(target.data_by_year, "%Y", '2023', 28 * 60 * 60, -4 * 60 * 60)
         self.__verify_data(target.data_by_year, "%Y", '2024', 4 * 60 * 60, 4 * 60 * 60)
 
+    def test_summarize_by_topic(self):
+        data_csv = [
+                    # 1.1. is public Holiday -> 7.5h overtime
+                    '01.01.2023;08:00;12:00;;misc;',
+                    '01.01.2023;12:00;12:30;;Pause;',
+                    '01.01.2023;12:30;16:00;;misc;',
+                    ]
+        serializer = TimeRecordSerializer()
+        data = serializer.read_csv_from_lines(data_csv)
+        target = TimeAnalysis(data)
+        
+        days = [_ for _ in target.data_by_day_by_topic if _.scope.strftime('01.01.2023') == '01.01.2023']
+        for day in days:
+            if day.comment == "misc":
+                self.assertEqual(7.5, day.working_hours())
+        
     def __verify_data(
             self,
             days,
