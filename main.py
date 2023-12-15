@@ -2,7 +2,6 @@ import logging
 import os
 import sys
 
-import darkdetect
 from PyQt6.QtWidgets import QApplication
 from appdata import AppDataPaths
 from PyQt6.QtGui import QIcon
@@ -31,11 +30,6 @@ def main():
     # QT variant
     app = QApplication(sys.argv)
     app.setStyle("Fusion")
-
-    # if darkdetect.isDark():
-    #     qdarktheme.setup_theme("dark")
-    # else:
-    #     qdarktheme.setup_theme("light")
 
     base_path = os.path.dirname(__file__)
     app.setWindowIcon(QIcon(os.path.join(base_path, "src", "clock.png")))

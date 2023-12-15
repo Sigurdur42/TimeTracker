@@ -9,8 +9,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1374</width>
-    <height>575</height>
+    <width>1242</width>
+    <height>543</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -24,9 +24,9 @@
    <widget class="QGroupBox" name="groupBox">
     <property name="geometry">
      <rect>
-      <x>10</x>
-      <y>10</y>
-      <width>801</width>
+      <x>500</x>
+      <y>0</y>
+      <width>731</width>
       <height>71</height>
      </rect>
     </property>
@@ -36,7 +36,7 @@
     <widget class="QPushButton" name="buttonOpenFilePicker">
      <property name="geometry">
       <rect>
-       <x>679</x>
+       <x>610</x>
        <y>30</y>
        <width>111</width>
        <height>31</height>
@@ -51,7 +51,7 @@
       <rect>
        <x>10</x>
        <y>31</y>
-       <width>661</width>
+       <width>591</width>
        <height>31</height>
       </rect>
      </property>
@@ -60,8 +60,8 @@
    <widget class="QGroupBox" name="groupBox_2">
     <property name="geometry">
      <rect>
-      <x>9</x>
-      <y>90</y>
+      <x>10</x>
+      <y>10</y>
       <width>131</width>
       <height>61</height>
      </rect>
@@ -74,7 +74,7 @@
       <rect>
        <x>10</x>
        <y>30</y>
-       <width>111</width>
+       <width>150</width>
        <height>21</height>
       </rect>
      </property>
@@ -99,9 +99,9 @@
    <widget class="QGroupBox" name="groupBox_3">
     <property name="geometry">
      <rect>
-      <x>150</x>
-      <y>100</y>
-      <width>521</width>
+      <x>10</x>
+      <y>80</y>
+      <width>451</width>
       <height>421</height>
      </rect>
     </property>
@@ -112,9 +112,9 @@
      <property name="geometry">
       <rect>
        <x>10</x>
-       <y>20</y>
-       <width>501</width>
-       <height>391</height>
+       <y>30</y>
+       <width>431</width>
+       <height>381</height>
       </rect>
      </property>
      <property name="sizePolicy">
@@ -145,10 +145,10 @@
    <widget class="QGroupBox" name="groupBox_4">
     <property name="geometry">
      <rect>
-      <x>10</x>
-      <y>160</y>
-      <width>131</width>
-      <height>121</height>
+      <x>150</x>
+      <y>10</y>
+      <width>341</width>
+      <height>61</height>
      </rect>
     </property>
     <property name="title">
@@ -157,7 +157,7 @@
     <widget class="QPushButton" name="pushButtonNewRecord">
      <property name="geometry">
       <rect>
-       <x>20</x>
+       <x>10</x>
        <y>30</y>
        <width>101</width>
        <height>22</height>
@@ -173,8 +173,8 @@
      </property>
      <property name="geometry">
       <rect>
-       <x>20</x>
-       <y>60</y>
+       <x>120</x>
+       <y>30</y>
        <width>101</width>
        <height>22</height>
       </rect>
@@ -189,8 +189,8 @@
      </property>
      <property name="geometry">
       <rect>
-       <x>20</x>
-       <y>90</y>
+       <x>230</x>
+       <y>30</y>
        <width>101</width>
        <height>22</height>
       </rect>
@@ -203,9 +203,9 @@
    <widget class="QGroupBox" name="groupBox_5">
     <property name="geometry">
      <rect>
-      <x>690</x>
-      <y>100</y>
-      <width>681</width>
+      <x>470</x>
+      <y>80</y>
+      <width>761</width>
       <height>421</height>
      </rect>
     </property>
@@ -215,9 +215,9 @@
     <widget class="QTableWidget" name="tableByDay">
      <property name="geometry">
       <rect>
-       <x>10</x>
+       <x>370</x>
        <y>30</y>
-       <width>341</width>
+       <width>211</width>
        <height>381</height>
       </rect>
      </property>
@@ -248,11 +248,44 @@
     <widget class="QTableWidget" name="tableByMonth">
      <property name="geometry">
       <rect>
-       <x>370</x>
+       <x>590</x>
        <y>30</y>
-       <width>301</width>
+       <width>161</width>
        <height>381</height>
       </rect>
+     </property>
+     <property name="editTriggers">
+      <set>QAbstractItemView::NoEditTriggers</set>
+     </property>
+     <property name="alternatingRowColors">
+      <bool>true</bool>
+     </property>
+     <property name="selectionMode">
+      <enum>QAbstractItemView::SingleSelection</enum>
+     </property>
+     <property name="selectionBehavior">
+      <enum>QAbstractItemView::SelectRows</enum>
+     </property>
+     <property name="columnCount">
+      <number>2</number>
+     </property>
+     <column/>
+     <column/>
+    </widget>
+    <widget class="QTableWidget" name="tableByDayCommented">
+     <property name="geometry">
+      <rect>
+       <x>10</x>
+       <y>30</y>
+       <width>351</width>
+       <height>381</height>
+      </rect>
+     </property>
+     <property name="sizePolicy">
+      <sizepolicy hsizetype="Maximum" vsizetype="Expanding">
+       <horstretch>0</horstretch>
+       <verstretch>0</verstretch>
+      </sizepolicy>
      </property>
      <property name="editTriggers">
       <set>QAbstractItemView::NoEditTriggers</set>
@@ -279,7 +312,7 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>1374</width>
+     <width>1242</width>
      <height>19</height>
     </rect>
    </property>

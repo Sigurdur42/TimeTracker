@@ -3,8 +3,17 @@ from datetime import datetime
 from PyQt6 import QtWidgets
 import logging
 
-from PyQt6.QtWidgets import QDialog, QVBoxLayout, QFormLayout, QDateEdit, QTimeEdit, QDialogButtonBox, QLayout, \
-    QCheckBox, QLineEdit
+from PyQt6.QtWidgets import (
+    QDialog,
+    QVBoxLayout,
+    QFormLayout,
+    QDateEdit,
+    QTimeEdit,
+    QDialogButtonBox,
+    QLayout,
+    QCheckBox,
+    QLineEdit,
+)
 
 from src.models import TimeRecord
 
@@ -14,7 +23,7 @@ class EditRecordDialog(QtWidgets.QDialog):
         # Call the inherited classes __init__ method
         super().__init__(parent)
 
-        logging.info('Creating edit record dialog...')
+        logging.info("Creating edit record dialog...")
         self.setWindowTitle("Edit record")
         form_layout = QFormLayout()
 
@@ -37,8 +46,9 @@ class EditRecordDialog(QtWidgets.QDialog):
         outer_layout.addLayout(form_layout)
 
         button_box = QVBoxLayout()
-        dialog_button_box = (
-            QDialogButtonBox(QDialogButtonBox.StandardButton.Ok | QDialogButtonBox.StandardButton.Cancel))
+        dialog_button_box = QDialogButtonBox(
+            QDialogButtonBox.StandardButton.Ok | QDialogButtonBox.StandardButton.Cancel
+        )
 
         ok_button = dialog_button_box.button(QDialogButtonBox.StandardButton.Ok)
         ok_button.clicked.connect(self.my_accept)
@@ -67,17 +77,11 @@ class EditRecordDialog(QtWidgets.QDialog):
         self.model.comment = self.comment.text()
         self.model.all_overtime = self.allOvertimeCheck.isChecked()
         self.model.start = datetime(
-            date.year(),
-            date.month(),
-            date.day(),
-            start.hour(),
-            start.minute())
+            date.year(), date.month(), date.day(), start.hour(), start.minute()
+        )
 
         self.model.end = datetime(
-            date.year(),
-            date.month(),
-            date.day(),
-            end.hour(),
-            end.minute())
+            date.year(), date.month(), date.day(), end.hour(), end.minute()
+        )
 
         QDialog.accept(self)

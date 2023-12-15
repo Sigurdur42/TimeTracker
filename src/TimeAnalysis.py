@@ -12,6 +12,7 @@ class TimeAnalysis:
         self.data_by_day = list[ScopeSummary]()
         self.data_by_month = list[ScopeSummary]()
         self.data_by_year = list[ScopeSummary]()
+        self.data_by_day_by_topic = list[ScopeSummary]()
         self.raw_data = sorted(data, key=lambda row: row.start)
         self.analyse_raw_data()
 
@@ -24,6 +25,9 @@ class TimeAnalysis:
         def by_day(_: TimeRecord):
             return _.start.date()
 
+        def by_comment(_: TimeRecord):
+            return _.comment
+
         grouped = {
             key: list(group) for key, group in itertools.groupby(self.raw_data, by_day)
         }
@@ -32,12 +36,23 @@ class TimeAnalysis:
         for single_day in grouped.values():
             self.data_by_day.append(self.__summarize_single_day(single_day))
 
+            day_by_comment = {
+                key: list(group)
+                for key, group in itertools.groupby(single_day, by_comment)
+            }
+
+            for single_day_comment in day_by_comment.values():
+                r = self.__summarize_single_day(single_day_comment)
+                r.comment = single_day_comment[0].comment
+                self.data_by_day_by_topic.append(r)
+
     def __analyse_data_by_month(self):
         def by_month(_: ScopeSummary):
-            return _.scope.strftime('%m.%Y')
+            return _.scope.strftime("%m.%Y")
 
         grouped = {
-            key: list(group) for key, group in itertools.groupby(self.data_by_day, by_month)
+            key: list(group)
+            for key, group in itertools.groupby(self.data_by_day, by_month)
         }
 
         self.data_by_month.clear()
@@ -53,10 +68,11 @@ class TimeAnalysis:
 
     def __analyse_data_by_year(self):
         def by_year(_: ScopeSummary):
-            return _.scope.strftime('%Y')
+            return _.scope.strftime("%Y")
 
         grouped = {
-            key: list(group) for key, group in itertools.groupby(self.data_by_month, by_year)
+            key: list(group)
+            for key, group in itertools.groupby(self.data_by_month, by_year)
         }
 
         self.data_by_year.clear()
@@ -96,7 +112,8 @@ class TimeAnalysis:
         return ScopeSummary(
             scope=day,
             working_seconds=working_seconds,
-            overtime_seconds=overtime_seconds)
+            overtime_seconds=overtime_seconds,
+        )
 
     def get_total_overtime_seconds(self) -> int:
         result = 0
@@ -114,12 +131,12 @@ class TimeAnalysis:
         self.analyse_raw_data()
 
     def dump_analysis(self):
-        print('Statistics by month:')
+        print("Statistics by month:")
         for scope in self.data_by_month:
             year_visible = scope.scope_as_month()
-            worked = '{:.2f}'.format(scope.working_seconds / 60 / 60)
-            overtime = '{:.2f}'.format(scope.overtime_seconds / 60 / 60)
-            print(f'{year_visible}: {worked}h  {overtime}h ')
+            worked = "{:.2f}".format(scope.working_seconds / 60 / 60)
+            overtime = "{:.2f}".format(scope.overtime_seconds / 60 / 60)
+            print(f"{year_visible}: {worked}h  {overtime}h ")
 
-        total_overtime = '{:.2f}'.format(self.get_total_overtime_seconds() / 60 / 60)
-        print(f'Current overtime: {total_overtime}h')
+        total_overtime = "{:.2f}".format(self.get_total_overtime_seconds() / 60 / 60)
+        print(f"Current overtime: {total_overtime}h")

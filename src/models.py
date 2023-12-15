@@ -11,7 +11,7 @@ class TimeRecord:
     comment: str
 
     def scope_as_day(self):
-        return self.start.strftime('%d.%m.%Y')
+        return self.start.strftime("%d.%m.%Y")
 
     def get_duration_seconds(self) -> int:
         return (self.end - self.start).seconds
@@ -26,15 +26,16 @@ class ScopeSummary:
     scope: datetime
     working_seconds: int
     overtime_seconds: int
+    comment: str = None
 
     def scope_as_month(self):
-        return self.scope.strftime('%m.%Y')
+        return self.scope.strftime("%m.%Y")
 
     def scope_as_year(self):
-        return self.scope.strftime('%Y')
+        return self.scope.strftime("%Y")
 
     def scope_as_day(self):
-        return self.scope.strftime('%d.%m.%Y')
+        return self.scope.strftime("%d.%m.%Y")
 
     def working_hours(self):
         return self.working_seconds / 60 / 60
@@ -52,7 +53,7 @@ class HumanReadable:
         if seconds < 0 and minutes != 0:
             minutes = 60 - int(seconds / 60 % 60)
 
-        sign = '-' if seconds < 0 else ''
+        sign = "-" if seconds < 0 else ""
         return f"{sign}{hours:02d}:{minutes:02d}"
 
     @staticmethod

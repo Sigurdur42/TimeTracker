@@ -153,6 +153,7 @@ class MainWindowQt(QtWidgets.QMainWindow):
             self.tableByDay, data.data_by_day, lambda scope: scope.scope_as_day(), "Day"
         )
         self.fill_table_with_raw_data(self.tableByRecord, data.raw_data)
+        self.fill_day_comment_table(self.tableByDayCommented, data.data_by_day_by_topic)
 
         logging.info("data successfully set to ui...")
 
@@ -171,7 +172,7 @@ class MainWindowQt(QtWidgets.QMainWindow):
             logger=logging.info,
         ):
             table.setColumnCount(3)
-            table.setHorizontalHeaderLabels([scope_label, "Hours", "Overtime"])
+            table.setHorizontalHeaderLabels([scope_label, "Hours", "Overt."])
 
             table.setRowCount(len(data))
             for index, (item) in enumerate(
@@ -184,10 +185,10 @@ class MainWindowQt(QtWidgets.QMainWindow):
                 working_seconds = HumanReadable.seconds_to_human_readable(
                     item.working_seconds
                 )
-                working_decimal = HumanReadable.seconds_to_decimal_display(
-                    item.working_seconds
-                )
-                item_worked.setText(f"{working_seconds} ({working_decimal})")
+                # working_decimal = HumanReadable.seconds_to_decimal_display(
+                #     item.working_seconds
+                # )
+                item_worked.setText(f"{working_seconds}")
                 item_worked.setTextAlignment(
                     Qt.AlignmentFlag.AlignCenter | Qt.AlignmentFlag.AlignVCenter
                 )
@@ -211,13 +212,55 @@ class MainWindowQt(QtWidgets.QMainWindow):
             table.resizeColumnsToContents()
 
     @staticmethod
+    def fill_day_comment_table(table, data):
+        with Timer(
+            initial_text=f"fill_table_with_raw_data()",
+            text=lambda secs: f"fill_table_with_raw_data() set data in {format_timespan(secs)}",
+            logger=logging.info,
+        ):
+            labels = ["Date", "Duration", "Comment"]
+            table.setColumnCount(len(labels))
+            table.setHorizontalHeaderLabels(labels)
+
+            table.setRowCount(len(data))
+            for index, (item) in enumerate(
+                sorted(data, key=lambda _: _.scope, reverse=True)
+            ):
+                item_scope = QTableWidgetItem()
+                item_scope.setText(item.scope_as_day())
+
+                item_duration = QTableWidgetItem()
+                working_seconds = HumanReadable.seconds_to_human_readable(
+                    item.working_seconds
+                )
+                working_decimal = HumanReadable.seconds_to_decimal_display(
+                    item.working_seconds
+                )
+                item_duration.setText(f"{working_seconds} ({working_decimal})")
+                item_duration.setTextAlignment(
+                    Qt.AlignmentFlag.AlignRight | Qt.AlignmentFlag.AlignVCenter
+                )
+
+                item_comment = QTableWidgetItem()
+                item_comment.setText(item.comment)
+                item_comment.setTextAlignment(
+                    Qt.AlignmentFlag.AlignLeft | Qt.AlignmentFlag.AlignVCenter
+                )
+
+                table.setItem(index, 0, item_scope)
+                table.setItem(index, 1, item_duration)
+                table.setItem(index, 2, item_comment)
+
+            table.resizeColumnsToContents()
+
+    @staticmethod
     def fill_table_with_raw_data(table, data):
         with Timer(
             initial_text=f"fill_table_with_raw_data()",
             text=lambda secs: f"fill_table_with_raw_data() set data in {format_timespan(secs)}",
             logger=logging.info,
         ):
-            labels = ["Date", "Start", "End", "Duration", "Comment", "OT", "id"]
+            labels = ["Date", "Start", "End", "Duration", "Comment", "OT"]
             table.setColumnCount(len(labels))
             table.setHorizontalHeaderLabels(labels)
 
@@ -246,21 +289,17 @@ class MainWindowQt(QtWidgets.QMainWindow):
                     Qt.AlignmentFlag.AlignLeft | Qt.AlignmentFlag.AlignVCenter
                 )
 
-                iten_all_overtime = QTableWidgetItem()
-                iten_all_overtime.setText("Yes" if item.all_overtime else "No")
-                iten_all_overtime.setTextAlignment(
+                item_all_overtime = QTableWidgetItem()
+                item_all_overtime.setText("Yes" if item.all_overtime else "No")
+                item_all_overtime.setTextAlignment(
                     Qt.AlignmentFlag.AlignCenter | Qt.AlignmentFlag.AlignVCenter
                 )
-
-                item_internal_id = QTableWidgetItem()
-                item_internal_id.setText(str(item.internal_id))
 
                 table.setItem(index, 0, item_scope)
                 table.setItem(index, 1, item_start)
                 table.setItem(index, 2, item_end)
                 table.setItem(index, 3, item_duration)
                 table.setItem(index, 4, item_comment)
-                table.setItem(index, 5, iten_all_overtime)
-                table.setItem(index, 6, item_internal_id)
+                table.setItem(index, 5, item_all_overtime)
 
             table.resizeColumnsToContents()
