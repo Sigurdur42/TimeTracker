@@ -33,6 +33,7 @@ class TimeAnalysis:
         }
 
         self.data_by_day.clear()
+        self.data_by_day_by_topic.clear()
         for single_day in grouped.values():
             self.data_by_day.append(self.__summarize_single_day(single_day))
 
