@@ -260,7 +260,7 @@ class MainWindowQt(QtWidgets.QMainWindow):
             text=lambda secs: f"fill_table_with_raw_data() set data in {format_timespan(secs)}",
             logger=logging.info,
         ):
-            labels = ["Date", "Start", "End", "Duration", "Comment", "OT"]
+            labels = ["Date", "Start", "End", "Duration", "Comment", "OT", "Id"]
             table.setColumnCount(len(labels))
             table.setHorizontalHeaderLabels(labels)
 
@@ -295,11 +295,15 @@ class MainWindowQt(QtWidgets.QMainWindow):
                     Qt.AlignmentFlag.AlignCenter | Qt.AlignmentFlag.AlignVCenter
                 )
 
+                item_internal_id = QTableWidgetItem()
+                item_internal_id.setText(str(item.internal_id))
+
                 table.setItem(index, 0, item_scope)
                 table.setItem(index, 1, item_start)
                 table.setItem(index, 2, item_end)
                 table.setItem(index, 3, item_duration)
                 table.setItem(index, 4, item_comment)
                 table.setItem(index, 5, item_all_overtime)
+                table.setItem(index, 6, item_internal_id)
 
             table.resizeColumnsToContents()
