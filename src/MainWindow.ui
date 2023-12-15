@@ -9,8 +9,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1073</width>
-    <height>577</height>
+    <width>1374</width>
+    <height>575</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -27,7 +27,7 @@
       <x>10</x>
       <y>10</y>
       <width>801</width>
-      <height>81</height>
+      <height>71</height>
      </rect>
     </property>
     <property name="title">
@@ -62,8 +62,8 @@
      <rect>
       <x>9</x>
       <y>90</y>
-      <width>290</width>
-      <height>211</height>
+      <width>131</width>
+      <height>61</height>
      </rect>
     </property>
     <property name="title">
@@ -74,8 +74,8 @@
       <rect>
        <x>10</x>
        <y>30</y>
-       <width>271</width>
-       <height>171</height>
+       <width>111</width>
+       <height>21</height>
       </rect>
      </property>
      <layout class="QFormLayout" name="formLayout">
@@ -99,144 +99,56 @@
    <widget class="QGroupBox" name="groupBox_3">
     <property name="geometry">
      <rect>
-      <x>320</x>
+      <x>150</x>
       <y>100</y>
-      <width>731</width>
+      <width>521</width>
       <height>421</height>
      </rect>
     </property>
     <property name="title">
      <string>Detailed Data</string>
     </property>
-    <widget class="QTabWidget" name="tabData">
+    <widget class="QTableWidget" name="tableByRecord">
      <property name="geometry">
       <rect>
        <x>10</x>
        <y>20</y>
-       <width>721</width>
+       <width>501</width>
        <height>391</height>
       </rect>
      </property>
-     <property name="currentIndex">
-      <number>0</number>
+     <property name="sizePolicy">
+      <sizepolicy hsizetype="Maximum" vsizetype="Expanding">
+       <horstretch>0</horstretch>
+       <verstretch>0</verstretch>
+      </sizepolicy>
      </property>
-     <widget class="QWidget" name="tabByMonth">
-      <attribute name="title">
-       <string>by Month</string>
-      </attribute>
-      <widget class="QTableWidget" name="tableByMonth">
-       <property name="geometry">
-        <rect>
-         <x>10</x>
-         <y>10</y>
-         <width>691</width>
-         <height>331</height>
-        </rect>
-       </property>
-       <property name="editTriggers">
-        <set>QAbstractItemView::NoEditTriggers</set>
-       </property>
-       <property name="alternatingRowColors">
-        <bool>true</bool>
-       </property>
-       <property name="selectionMode">
-        <enum>QAbstractItemView::SingleSelection</enum>
-       </property>
-       <property name="selectionBehavior">
-        <enum>QAbstractItemView::SelectRows</enum>
-       </property>
-       <property name="columnCount">
-        <number>2</number>
-       </property>
-       <column/>
-       <column/>
-      </widget>
-     </widget>
-     <widget class="QWidget" name="tabByDay">
-      <attribute name="title">
-       <string>by Day</string>
-      </attribute>
-      <widget class="QTableWidget" name="tableByDay">
-       <property name="geometry">
-        <rect>
-         <x>10</x>
-         <y>10</y>
-         <width>691</width>
-         <height>331</height>
-        </rect>
-       </property>
-       <property name="sizePolicy">
-        <sizepolicy hsizetype="Maximum" vsizetype="Expanding">
-         <horstretch>0</horstretch>
-         <verstretch>0</verstretch>
-        </sizepolicy>
-       </property>
-       <property name="editTriggers">
-        <set>QAbstractItemView::NoEditTriggers</set>
-       </property>
-       <property name="alternatingRowColors">
-        <bool>true</bool>
-       </property>
-       <property name="selectionMode">
-        <enum>QAbstractItemView::SingleSelection</enum>
-       </property>
-       <property name="selectionBehavior">
-        <enum>QAbstractItemView::SelectRows</enum>
-       </property>
-       <property name="columnCount">
-        <number>2</number>
-       </property>
-       <column/>
-       <column/>
-      </widget>
-     </widget>
-     <widget class="QWidget" name="tab">
-      <attribute name="title">
-       <string>by Record</string>
-      </attribute>
-      <widget class="QTableWidget" name="tableByRecord">
-       <property name="geometry">
-        <rect>
-         <x>10</x>
-         <y>10</y>
-         <width>691</width>
-         <height>331</height>
-        </rect>
-       </property>
-       <property name="sizePolicy">
-        <sizepolicy hsizetype="Maximum" vsizetype="Expanding">
-         <horstretch>0</horstretch>
-         <verstretch>0</verstretch>
-        </sizepolicy>
-       </property>
-       <property name="editTriggers">
-        <set>QAbstractItemView::NoEditTriggers</set>
-       </property>
-       <property name="alternatingRowColors">
-        <bool>true</bool>
-       </property>
-       <property name="selectionMode">
-        <enum>QAbstractItemView::SingleSelection</enum>
-       </property>
-       <property name="selectionBehavior">
-        <enum>QAbstractItemView::SelectRows</enum>
-       </property>
-       <property name="columnCount">
-        <number>2</number>
-       </property>
-       <column/>
-       <column/>
-      </widget>
-     </widget>
+     <property name="editTriggers">
+      <set>QAbstractItemView::NoEditTriggers</set>
+     </property>
+     <property name="alternatingRowColors">
+      <bool>true</bool>
+     </property>
+     <property name="selectionMode">
+      <enum>QAbstractItemView::SingleSelection</enum>
+     </property>
+     <property name="selectionBehavior">
+      <enum>QAbstractItemView::SelectRows</enum>
+     </property>
+     <property name="columnCount">
+      <number>2</number>
+     </property>
+     <column/>
+     <column/>
     </widget>
    </widget>
    <widget class="QGroupBox" name="groupBox_4">
     <property name="geometry">
      <rect>
-      <x>9</x>
-      <y>310</y>
-      <width>291</width>
-      <height>101</height>
+      <x>10</x>
+      <y>160</y>
+      <width>131</width>
+      <height>121</height>
      </rect>
     </property>
     <property name="title">
@@ -277,8 +189,8 @@
      </property>
      <property name="geometry">
       <rect>
-       <x>180</x>
-       <y>60</y>
+       <x>20</x>
+       <y>90</y>
        <width>101</width>
        <height>22</height>
       </rect>
@@ -288,14 +200,87 @@
      </property>
     </widget>
    </widget>
+   <widget class="QGroupBox" name="groupBox_5">
+    <property name="geometry">
+     <rect>
+      <x>690</x>
+      <y>100</y>
+      <width>681</width>
+      <height>421</height>
+     </rect>
+    </property>
+    <property name="title">
+     <string>Summary</string>
+    </property>
+    <widget class="QTableWidget" name="tableByDay">
+     <property name="geometry">
+      <rect>
+       <x>10</x>
+       <y>30</y>
+       <width>341</width>
+       <height>381</height>
+      </rect>
+     </property>
+     <property name="sizePolicy">
+      <sizepolicy hsizetype="Maximum" vsizetype="Expanding">
+       <horstretch>0</horstretch>
+       <verstretch>0</verstretch>
+      </sizepolicy>
+     </property>
+     <property name="editTriggers">
+      <set>QAbstractItemView::NoEditTriggers</set>
+     </property>
+     <property name="alternatingRowColors">
+      <bool>true</bool>
+     </property>
+     <property name="selectionMode">
+      <enum>QAbstractItemView::SingleSelection</enum>
+     </property>
+     <property name="selectionBehavior">
+      <enum>QAbstractItemView::SelectRows</enum>
+     </property>
+     <property name="columnCount">
+      <number>2</number>
+     </property>
+     <column/>
+     <column/>
+    </widget>
+    <widget class="QTableWidget" name="tableByMonth">
+     <property name="geometry">
+      <rect>
+       <x>370</x>
+       <y>30</y>
+       <width>301</width>
+       <height>381</height>
+      </rect>
+     </property>
+     <property name="editTriggers">
+      <set>QAbstractItemView::NoEditTriggers</set>
+     </property>
+     <property name="alternatingRowColors">
+      <bool>true</bool>
+     </property>
+     <property name="selectionMode">
+      <enum>QAbstractItemView::SingleSelection</enum>
+     </property>
+     <property name="selectionBehavior">
+      <enum>QAbstractItemView::SelectRows</enum>
+     </property>
+     <property name="columnCount">
+      <number>2</number>
+     </property>
+     <column/>
+     <column/>
+    </widget>
+   </widget>
   </widget>
   <widget class="QMenuBar" name="menubar">
    <property name="geometry">
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>1073</width>
-     <height>28</height>
+     <width>1374</width>
+     <height>19</height>
     </rect>
    </property>
   </widget>
