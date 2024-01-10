@@ -19,6 +19,12 @@ class TimeRecord:
     def get_duration_display(self) -> int:
         diff = self.end - self.start
         return str(diff)
+    
+    def get_main_comment(self) -> str:
+        if  self.comment is None:
+            return None
+        
+        return self.comment.split(':')[0].strip()
 
 
 @dataclass

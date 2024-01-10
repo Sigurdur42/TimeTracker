@@ -37,7 +37,7 @@ class TimeAnalysis:
         for single_day in grouped.values():
             self.data_by_day.append(self.__summarize_single_day(single_day))
 
-            sorted_by_comment = sorted(single_day, key=by_comment)
+            sorted_by_comment = sorted(single_day, key=lambda _: _.get_main_comment())
             days = itertools.groupby(sorted_by_comment, by_comment)
 
             for comment, values in days:
