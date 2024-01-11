@@ -23,8 +23,10 @@ class TimeRecord:
     def get_main_comment(self) -> str:
         if  self.comment is None:
             return None
-        
-        return self.comment.split(':')[0].strip()
+       
+        parts = self.comment.split(':')
+        print(parts)
+        return parts[0].strip()
 
 
 @dataclass
