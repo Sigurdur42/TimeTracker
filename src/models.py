@@ -25,7 +25,6 @@ class TimeRecord:
             return None
        
         parts = self.comment.split(':')
-        print(parts)
         return parts[0].strip()
 
 
