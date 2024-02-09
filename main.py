@@ -2,7 +2,7 @@ import logging
 import os
 import sys
 
-from PyQt6.QtWidgets import QApplication
+from PyQt6.QtWidgets import QApplication, QStyleFactory
 from appdata import AppDataPaths
 from PyQt6.QtGui import QIcon
 
@@ -29,6 +29,7 @@ def main():
 
     # QT variant
     app = QApplication(sys.argv)
+    logging.info(f"Available styles: {QStyleFactory.keys()}")
     app.setStyle("Fusion")
 
     base_path = os.path.dirname(__file__)
