@@ -26,7 +26,7 @@ class TimeAnalysis:
             return _.start.date()
 
         def by_comment(_: TimeRecord):
-            return _.comment
+            return _.comment if _.comment is not None else ""
 
         grouped = {
             key: list(group) for key, group in itertools.groupby(self.raw_data, by_day)
