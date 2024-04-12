@@ -11,7 +11,7 @@ from src import Controller
 from src.models import TimeRecord, HumanReadable
 from humanfriendly import format_timespan
 from codetiming import Timer
-
+import pathlib
 
 class MainWindowQt(QtWidgets.QMainWindow):
     pushButtonDeleteRecord = None
@@ -27,7 +27,9 @@ class MainWindowQt(QtWidgets.QMainWindow):
         super(MainWindowQt, self).__init__()
 
         # Load the .ui file
-        uic.loadUi("src/MainWindow.ui", self)
+        script_directory = pathlib.Path(__file__).parent.resolve()
+
+        uic.loadUi(f"{script_directory}/MainWindow.ui", self)
         logging.info("Loaded main window...")
         self.setWindowTitle(f"Time Tracker V{version}")
 
