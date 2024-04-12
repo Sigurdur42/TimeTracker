@@ -31,15 +31,18 @@ class EditRecordDialog(QtWidgets.QDialog):
         form_layout.addRow("Date:", self.dateEdit)
 
         self.timeEditStart = QTimeEdit()
+        self.timeEditStart.setDisplayFormat("HH:mm")
         form_layout.addRow("Start:", self.timeEditStart)
 
         self.timeEditEnd = QTimeEdit()
+        self.timeEditEnd.setDisplayFormat("HH:mm")
         form_layout.addRow("End:", self.timeEditEnd)
 
         self.allOvertimeCheck = QCheckBox()
         form_layout.addRow("All Overtime:", self.allOvertimeCheck)
 
         self.comment = QLineEdit()
+        self.comment.setFixedWidth(300)
         form_layout.addRow("Comment:", self.comment)
 
         outer_layout = QVBoxLayout()
