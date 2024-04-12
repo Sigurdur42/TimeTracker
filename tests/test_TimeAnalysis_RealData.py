@@ -7,7 +7,7 @@ from src.serializers import TimeRecordSerializer
 class TimeAnalysisWithRealDataTests(unittest.TestCase):
     def setUp(self) -> None:
         serializer = TimeRecordSerializer()
-        self.loaded_data = serializer.read_from_csv_file("./TestData/April_to_July.csv")
+        self.loaded_data = serializer.read_from_csv_file("./TestData/DataFile.csv")
         self.target = TimeAnalysis(self.loaded_data)
 
     def test_verify_day_calculations(self):

@@ -15,12 +15,12 @@ class TimeRecordSerializer:
     def write_csv_to_file(self, file_name: str, data: List[TimeRecord]):
         logging.info(f"Writing data to csv file {file_name}")
         content = self.generate_csv(data)
-        with open(file_name, "w+") as file:
+        with open(file_name, "w+", encoding = 'utf-8', errors = 'ignore') as file:
             file.write(content)
 
     def generate_csv(self, data: List[TimeRecord]) -> str:
         output = io.StringIO()
-        writer = csv.writer(output, quoting=csv.QUOTE_MINIMAL, delimiter=";", lineterminator="\n")
+        writer = csv.writer(output, quoting = csv.QUOTE_MINIMAL, delimiter = ";", lineterminator = "\n")
 
         for rec in data:
             row = (
@@ -44,14 +44,14 @@ class TimeRecordSerializer:
             return list[TimeRecord]()
 
         logging.info(f"Reading data from csv file {file_name}")
-        with open(file_name, "r") as file:
+        with open(file_name, "r", encoding = 'utf-8', errors = 'ignore') as file:
             lines = file.readlines()
             return self.read_csv_from_lines(lines)
 
     @staticmethod
     def read_csv_from_lines(lines: List[str]) -> List[TimeRecord]:
         result = list[TimeRecord]()
-        reader = csv.reader(lines, delimiter=";")
+        reader = csv.reader(lines, delimiter = ";")
         index = 0
         for row in reader:
             if len(row) == 0:
@@ -67,11 +67,11 @@ class TimeRecordSerializer:
                     comment = str(row[4])
 
                 parsed = TimeRecord(
-                    internal_id=index,
-                    start=datetime.strptime(f'{row[0]} {row[1]}', "%d.%m.%Y %H:%M"),
-                    end=datetime.strptime(f'{row[0]} {row[2]}', "%d.%m.%Y %H:%M"),
-                    all_overtime=all_overtime,
-                    comment=comment
+                    internal_id = index,
+                    start = datetime.strptime(f'{row[0]} {row[1]}', "%d.%m.%Y %H:%M"),
+                    end = datetime.strptime(f'{row[0]} {row[2]}', "%d.%m.%Y %H:%M"),
+                    all_overtime = all_overtime,
+                    comment = comment
                 )
                 index += 1
                 result.append(parsed)
