@@ -4,6 +4,7 @@
 - load csv content from ~/TimeTracker/TimeTrackerData.csv
 
 # todo
+- poetry create distribution script
 - add logging
 - design UI
   - react on resize
@@ -16,6 +17,8 @@
 - https://pypi.org/project/pip-autoremove/
 
 # Installation
+*NEW:* We use poetry - use these commands instead
+
 ## Restore python environment
 In the cloned git folder:
 ``` 

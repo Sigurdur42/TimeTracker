@@ -7,8 +7,8 @@ from PyQt6.QtCore import pyqtSlot
 from PyQt6.QtGui import QColor, QPalette, QIcon
 from PyQt6.QtWidgets import QTableWidgetItem, QFileDialog, QDialog, QMessageBox
 
-from src import Controller
-from src.models import TimeRecord, HumanReadable
+from timetracking import Controller
+from models import TimeRecord, HumanReadable
 from humanfriendly import format_timespan
 from codetiming import Timer
 import pathlib
@@ -107,7 +107,7 @@ class MainWindowQt(QtWidgets.QMainWindow):
             self.__set_data()
 
     def __show_edit_record_dialog(self, model: TimeRecord) -> bool:
-        from src.EditRecordDialog import EditRecordDialog
+        from timetracking.EditRecordDialog import EditRecordDialog
 
         logging.info(f"Shall edit record {model}...")
         dialog = EditRecordDialog(self, model)

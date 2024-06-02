@@ -1,6 +1,6 @@
 from unittest import TestCase
 
-from src.models import HumanReadable
+from timetracking.models import HumanReadable
 
 
 class HumanReadableTests(TestCase):

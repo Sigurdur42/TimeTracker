@@ -3,7 +3,7 @@ from typing import List
 import csv
 import io
 from datetime import datetime
-from .models import TimeRecord
+from timetracking.models import TimeRecord
 from pathlib import Path
 import logging
 

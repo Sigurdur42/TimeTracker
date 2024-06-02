@@ -15,7 +15,7 @@ from PyQt6.QtWidgets import (
     QLineEdit,
 )
 
-from src.models import TimeRecord
+from timetracking.models import TimeRecord
 
 
 class EditRecordDialog(QtWidgets.QDialog):

@@ -1,7 +1,7 @@
 import unittest
 
-from src.TimeAnalysis import TimeAnalysis
-from src.serializers import TimeRecordSerializer
+from timetracking.TimeAnalysis import TimeAnalysis
+from timetracking.serializers import TimeRecordSerializer
 
 
 class TimeAnalysisWithRealDataTests(unittest.TestCase):

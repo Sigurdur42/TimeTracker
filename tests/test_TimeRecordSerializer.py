@@ -1,8 +1,8 @@
 from typing import List
 import unittest
-from src.models import TimeRecord
+from timetracking.models import TimeRecord
 import os
-from src.serializers import TimeRecordSerializer
+from timetracking.serializers import TimeRecordSerializer
 import tempfile
 import uuid
 
