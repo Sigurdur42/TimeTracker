@@ -4,8 +4,8 @@ from dataclasses import dataclass
 from appdata import AppDataPaths
 
 from timetracking import BetterConfigParser, TimeAnalysis
-from models import TimeRecord
-from serializers import TimeRecordSerializer
+from timetracking.models import TimeRecord
+from timetracking.serializers import TimeRecordSerializer
 
 
 @dataclass

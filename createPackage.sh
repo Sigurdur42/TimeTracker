@@ -1,6 +1,6 @@
-pip install -r requirements.txt
+poetry install
 pyinstaller ./TimeTracker.spec --noconfirm
-mkdir -p ./dist/src/
-cp ./src/*.ui ./dist/src/
-cp ./src/*.ico ./dist/src/
-cp ./src/*.png ./dist/src/
+mkdir -p ./dist/TimeTracker/
+cp ./timetracking/*.ui ./dist/TimeTracker/
+cp ./timetracking/*.ico ./dist/TimeTracker/
+cp ./timetracking/*.png ./dist/TimeTracker/

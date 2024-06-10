@@ -6,9 +6,9 @@ from PyQt6.QtWidgets import QApplication, QStyleFactory
 from appdata import AppDataPaths
 from PyQt6.QtGui import QIcon
 
-from BetterConfigParser import BetterConfigParser
-from Controller import Controller
-from MainWindowQt import MainWindowQt
+from timetracking.BetterConfigParser import BetterConfigParser
+from timetracking.Controller import Controller
+from timetracking.MainWindowQt import MainWindowQt
 
 applicationName = "TimeTracker"
 version = "1.1.8"
