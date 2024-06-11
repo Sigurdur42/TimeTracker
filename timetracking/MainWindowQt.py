@@ -13,7 +13,6 @@ from timetracking import Controller
 from timetracking.models import TimeRecord, HumanReadable
 from humanfriendly import format_timespan
 from codetiming import Timer
-import pathlib
 
 
 class MainWindowQt(QtWidgets.QMainWindow):
