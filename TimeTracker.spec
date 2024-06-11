@@ -7,8 +7,8 @@ block_cipher = None
 a = Analysis(
     ['timetracking/main.py'],
     pathex=[],
-    binaries=[('timetracking/MainWindow.ui', 'src/.')],
-    datas=[],
+    binaries=[],
+    datas=[('timetracking/MainWindow.ui', 'timetracking')],
     hiddenimports=[],
     hookspath=[],
     hooksconfig={},

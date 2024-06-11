@@ -17,9 +17,8 @@ codetiming = "^1.4.0"
 requires = ["poetry-core"]
 build-backend = "poetry.core.masonry.api"
 
-[tool.poetry-pyinstaller-plugin.scripts]
-TimeTracker = { source = "timetracking/main.py", type = "onedir", bundle = false, windowed = true, icon = "timetracking\\clock.ico" }
-
-[tool.poetry-pyinstaller-plugin.collect]
-# Collect all submodules, data files & binaries for 'package_A' and 'package_B'
-data = ['clock.png', 'timetracking/MainWindow.ui']
+#[tool.poetry-pyinstaller-plugin.scripts]
+#TimeTracker = { source = "timetracking/main.py", type = "onedir", bundle = false, windowed = true, icon = "timetracking\\clock.ico" }
+#
+#[tool.poetry-pyinstaller-plugin.collect]
+#data = ['clock.png', 'timetracking/MainWindow.ui']
