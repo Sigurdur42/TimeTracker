@@ -83,6 +83,7 @@ class MainWindowQt(QtWidgets.QMainWindow):
             start = datetime.now(),
             end = datetime.now(),
             all_overtime = False,
+            travel = False,
             comment = None,
         )
 

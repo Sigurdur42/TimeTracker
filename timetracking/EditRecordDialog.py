@@ -41,6 +41,9 @@ class EditRecordDialog(QtWidgets.QDialog):
         self.allOvertimeCheck = QCheckBox()
         form_layout.addRow("All Overtime:", self.allOvertimeCheck)
 
+        self.travel = QCheckBox()
+        form_layout.addRow("Travel:", self.travel)
+
         self.comment = QLineEdit()
         self.comment.setFixedWidth(300)
         form_layout.addRow("Comment:", self.comment)
@@ -70,15 +73,17 @@ class EditRecordDialog(QtWidgets.QDialog):
         self.timeEditStart.setTime(data.start.time())
         self.timeEditEnd.setTime(data.end.time())
         self.allOvertimeCheck.setChecked(data.all_overtime)
+        self.travel.setChecked(data.travel)
         self.comment.setText(data.comment)
 
-    def my_accept(self, checked=False):
+    def my_accept(self, checked = False):
         date = self.dateEdit.dateTime().date()
         start = self.timeEditStart.dateTime().time()
         end = self.timeEditEnd.dateTime().time()
 
         self.model.comment = self.comment.text()
         self.model.all_overtime = self.allOvertimeCheck.isChecked()
+        self.model.travel = self.travel.isChecked()
         self.model.start = datetime(
             date.year(), date.month(), date.day(), start.hour(), start.minute()
         )

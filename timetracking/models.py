@@ -9,6 +9,7 @@ class TimeRecord:
     start: datetime
     end: datetime
     all_overtime: bool
+    travel: bool
     comment: Optional[str]
 
     def scope_as_day(self):
@@ -17,11 +18,11 @@ class TimeRecord:
     def get_duration_seconds(self) -> int:
         return (self.end - self.start).seconds
 
-    def get_duration_display(self) -> int:
+    def get_duration_display(self) -> str:
         diff = self.end - self.start
         return str(diff)
 
-    def get_main_comment(self) -> str:
+    def get_main_comment(self) -> Optional[str]:
         if self.comment is None:
             return None
 
