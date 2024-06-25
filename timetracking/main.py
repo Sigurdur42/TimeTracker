@@ -2,6 +2,7 @@ import logging
 import os
 import sys
 
+import qdarkstyle
 from PyQt6.QtWidgets import QApplication, QStyleFactory
 from appdata import AppDataPaths
 from PyQt6.QtGui import QIcon
@@ -11,7 +12,7 @@ from timetracking.Controller import Controller
 from timetracking.MainWindowQt import MainWindowQt
 
 applicationName = "TimeTracker"
-version = "1.1.8"
+version = "1.1.9"
 
 
 def main():
@@ -29,8 +30,9 @@ def main():
 
     # QT variant
     app = QApplication(sys.argv)
-    logging.info(f"Available styles: {QStyleFactory.keys()}")
-    app.setStyle("Fusion")
+    # logging.info(f"Available styles: {QStyleFactory.keys()}")
+    # app.setStyle("Fusion")
+    app.setStyleSheet(qdarkstyle.load_stylesheet_pyqt6())
 
     base_path = os.path.dirname(__file__)
     app.setWindowIcon(QIcon(os.path.join(base_path, "src", "clock.png")))
