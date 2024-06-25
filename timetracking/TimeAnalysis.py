@@ -1,8 +1,9 @@
+import dis
 import logging
 import itertools
 from datetime import timedelta
 
-from .models import TimeRecord
+from .models import TimeRecord, TimesheetRecord
 from .models import ScopeSummary
 from typing import List
 
@@ -13,13 +14,15 @@ class TimeAnalysis:
         self.data_by_month = list[ScopeSummary]()
         self.data_by_year = list[ScopeSummary]()
         self.data_by_day_by_topic = list[ScopeSummary]()
-        self.raw_data = sorted(data, key=lambda row: row.start)
+        self.data_for_timesheet = list[TimesheetRecord]()
+        self.raw_data = sorted(data, key = lambda row: row.start)
         self.analyse_raw_data()
 
     def analyse_raw_data(self):
         self.__analyse_raw_data_by_day()
         self.__analyse_data_by_month()
         self.__analyse_data_by_year()
+        self.__analyse_data_for_timesheet()
 
     def __analyse_raw_data_by_day(self):
         def by_day(_: TimeRecord):
@@ -37,14 +40,31 @@ class TimeAnalysis:
         for single_day in grouped.values():
             self.data_by_day.append(self.__summarize_single_day(single_day))
 
-            sorted_by_comment = sorted(single_day, key=by_comment)
-            days = itertools.groupby(sorted_by_comment, key=lambda _: _.get_main_comment())
+            sorted_by_comment = sorted(single_day, key = by_comment)
+            days = itertools.groupby(sorted_by_comment, key = lambda _: _.get_main_comment())
 
             for comment, values in days:
                 list_values = list(values)
                 r = self.__summarize_single_day(list_values)
                 r.comment = comment
                 self.data_by_day_by_topic.append(r)
+
+    def __analyse_data_for_timesheet(self):
+        self.data_for_timesheet.clear()
+        for day in self.data_by_day:
+            start = day.scope
+            pause = timedelta(minutes = 45)
+            end = start + timedelta(seconds = day.working_seconds) + pause
+
+            _ = TimesheetRecord(
+                scope = day.scope,
+                start = start.strftime('%H.%M'),
+                end = end.strftime('%H.%M'),
+                pause = '00:45',
+                travel_start = '',
+                travel_end = '',
+            )
+            self.data_for_timesheet.append(_)
 
     def __analyse_data_by_month(self):
         def by_month(_: ScopeSummary):
@@ -93,7 +113,6 @@ class TimeAnalysis:
         for part in data:
             working_seconds += (part.end - part.start).seconds
 
-        # todo: get actual working hours from config
         day = data[0].start
 
         hours_per_day = 8 * 60 * 60
@@ -110,9 +129,9 @@ class TimeAnalysis:
                     overtime_seconds = working_seconds - hours_per_day
 
         return ScopeSummary(
-            scope=day,
-            working_seconds=working_seconds,
-            overtime_seconds=overtime_seconds,
+            scope = day,
+            working_seconds = working_seconds,
+            overtime_seconds = overtime_seconds,
         )
 
     def get_total_overtime_seconds(self) -> int:
@@ -127,7 +146,7 @@ class TimeAnalysis:
 
     def add_record(self, new_record: TimeRecord):
         self.raw_data.append(new_record)
-        self.raw_data = sorted(self.raw_data, key=lambda row: row.start)
+        self.raw_data = sorted(self.raw_data, key = lambda row: row.start)
         self.analyse_raw_data()
 
     def dump_analysis(self):

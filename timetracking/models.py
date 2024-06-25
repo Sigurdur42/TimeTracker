@@ -1,5 +1,6 @@
 from datetime import datetime
 from dataclasses import dataclass
+from typing import Optional
 
 
 @dataclass
@@ -8,7 +9,7 @@ class TimeRecord:
     start: datetime
     end: datetime
     all_overtime: bool
-    comment: str
+    comment: Optional[str]
 
     def scope_as_day(self):
         return self.start.strftime("%d.%m.%Y")
@@ -19,11 +20,11 @@ class TimeRecord:
     def get_duration_display(self) -> int:
         diff = self.end - self.start
         return str(diff)
-    
+
     def get_main_comment(self) -> str:
-        if  self.comment is None:
+        if self.comment is None:
             return None
-       
+
         parts = self.comment.split(':')
         return parts[0].strip()
 
@@ -49,6 +50,19 @@ class ScopeSummary:
 
     def overtime_hours(self):
         return self.overtime_seconds / 60 / 60
+
+
+@dataclass
+class TimesheetRecord:
+    scope: datetime
+    start: str
+    end: str
+    pause: str
+    travel_start: str
+    travel_end: str
+
+    def scope_as_day(self):
+        return self.scope.strftime("%d.%m.%Y")
 
 
 @dataclass

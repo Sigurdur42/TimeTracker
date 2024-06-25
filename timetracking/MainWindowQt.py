@@ -23,6 +23,8 @@ class MainWindowQt(QtWidgets.QMainWindow):
     labelOvertimeSummary = None
     tableByMonth = None
     tableByDay = None
+    tableByDayCommented = None
+    tableByExcel = None
 
     def __init__(self, controller: Controller, version: str):
         # Call the inherited classes __init__ method
@@ -157,6 +159,8 @@ class MainWindowQt(QtWidgets.QMainWindow):
         )
         self.fill_table_with_raw_data(self.tableByRecord, data.raw_data)
         self.fill_day_comment_table(self.tableByDayCommented, data.data_by_day_by_topic)
+        self.fill_timesheet_table(self.tableByExcel, data.data_for_timesheet)
+        # fill
 
         logging.info("data successfully set to ui...")
 
@@ -253,6 +257,63 @@ class MainWindowQt(QtWidgets.QMainWindow):
                 table.setItem(index, 0, item_scope)
                 table.setItem(index, 1, item_duration)
                 table.setItem(index, 2, item_comment)
+
+            table.resizeColumnsToContents()
+
+    @staticmethod
+    def fill_timesheet_table(table, data):
+        with Timer(
+                initial_text = f"fill_timesheet_table()",
+                text = lambda secs: f"fill_timesheet_table() set data in {format_timespan(secs)}",
+                logger = logging.info,
+        ):
+            labels = ["Date", "Start", "End", "Pause", "Travel Start", "Travel End"]
+            table.setColumnCount(len(labels))
+            table.setHorizontalHeaderLabels(labels)
+
+            table.setRowCount(len(data))
+            for index, (item) in enumerate(
+                    sorted(data, key = lambda _: _.scope, reverse = True)
+            ):
+                item_scope = QTableWidgetItem()
+                item_scope.setText(item.scope_as_day())
+
+                item_start = QTableWidgetItem()
+                item_start.setText(item.start)
+                item_start.setTextAlignment(
+                    Qt.AlignmentFlag.AlignRight | Qt.AlignmentFlag.AlignVCenter
+                )
+
+                item_end = QTableWidgetItem()
+                item_end.setText(item.end)
+                item_end.setTextAlignment(
+                    Qt.AlignmentFlag.AlignRight | Qt.AlignmentFlag.AlignVCenter
+                )
+
+                item_pause = QTableWidgetItem()
+                item_pause.setText(item.pause)
+                item_pause.setTextAlignment(
+                    Qt.AlignmentFlag.AlignRight | Qt.AlignmentFlag.AlignVCenter
+                )
+
+                item_travel_start = QTableWidgetItem()
+                item_travel_start.setText(item.travel_start)
+                item_travel_start.setTextAlignment(
+                    Qt.AlignmentFlag.AlignRight | Qt.AlignmentFlag.AlignVCenter
+                )
+
+                item_travel_end = QTableWidgetItem()
+                item_travel_end.setText(item.travel_end)
+                item_travel_end.setTextAlignment(
+                    Qt.AlignmentFlag.AlignRight | Qt.AlignmentFlag.AlignVCenter
+                )
+
+                table.setItem(index, 0, item_scope)
+                table.setItem(index, 1, item_start)
+                table.setItem(index, 2, item_end)
+                table.setItem(index, 3, item_pause)
+                table.setItem(index, 4, item_travel_start)
+                table.setItem(index, 5, item_travel_end)
 
             table.resizeColumnsToContents()
 
