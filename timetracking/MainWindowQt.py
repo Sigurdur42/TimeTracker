@@ -179,8 +179,8 @@ class MainWindowQt(QtWidgets.QMainWindow):
                 text = lambda secs: f"set data {scope_label} in {format_timespan(secs)}",
                 logger = logging.info,
         ):
-            table.setColumnCount(3)
-            table.setHorizontalHeaderLabels([scope_label, "Hours", "Overt."])
+            table.setColumnCount(4)
+            table.setHorizontalHeaderLabels([scope_label, "Hours", 'Travel', "Overt."])
 
             table.setRowCount(len(data))
             for index, (item) in enumerate(
@@ -193,11 +193,19 @@ class MainWindowQt(QtWidgets.QMainWindow):
                 working_seconds = HumanReadable.seconds_to_human_readable(
                     item.working_seconds
                 )
-                # working_decimal = HumanReadable.seconds_to_decimal_display(
-                #     item.working_seconds
-                # )
+
                 item_worked.setText(f"{working_seconds}")
                 item_worked.setTextAlignment(
+                    Qt.AlignmentFlag.AlignCenter | Qt.AlignmentFlag.AlignVCenter
+                )
+
+                item_travel = QTableWidgetItem()
+                travel_seconds = HumanReadable.seconds_to_human_readable(
+                    item.travel_seconds
+                )
+
+                item_travel.setText(f"{travel_seconds}")
+                item_travel.setTextAlignment(
                     Qt.AlignmentFlag.AlignCenter | Qt.AlignmentFlag.AlignVCenter
                 )
 
@@ -215,7 +223,8 @@ class MainWindowQt(QtWidgets.QMainWindow):
                 # item_color.setBackground(get_rgb_from_hex(code))
                 table.setItem(index, 0, item_scope)
                 table.setItem(index, 1, item_worked)
-                table.setItem(index, 2, item_overtime)
+                table.setItem(index, 2, item_travel)
+                table.setItem(index, 3, item_overtime)
 
             table.resizeColumnsToContents()
 

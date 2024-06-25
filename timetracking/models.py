@@ -35,6 +35,8 @@ class ScopeSummary:
     scope: datetime
     working_seconds: int
     overtime_seconds: int
+    travel_start: Optional[datetime]
+    travel_seconds: int = 0
     comment: str = None
 
     def scope_as_month(self):
@@ -51,6 +53,12 @@ class ScopeSummary:
 
     def overtime_hours(self):
         return self.overtime_seconds / 60 / 60
+
+    def travel_hours(self):
+        if self.travel_seconds == 0:
+            return 0
+
+        return self.travel_seconds / 60 / 60
 
 
 @dataclass
