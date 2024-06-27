@@ -2,7 +2,6 @@ import logging
 import os
 import sys
 
-import qdarkstyle
 from PyQt6.QtWidgets import QApplication, QStyleFactory
 from appdata import AppDataPaths
 from PyQt6.QtGui import QIcon
@@ -28,11 +27,11 @@ def main():
     config = BetterConfigParser(app_paths.config_path)
     controller = Controller(config, app_paths)
 
-    # QT variant
+    # sys.argv += ['-platform', 'windows:darkmode=2']
     app = QApplication(sys.argv)
-    # logging.info(f"Available styles: {QStyleFactory.keys()}")
-    # app.setStyle("Fusion")
-    app.setStyleSheet(qdarkstyle.load_stylesheet_pyqt6())
+    logging.info(f"Available styles: {QStyleFactory.keys()}")
+    app.setStyle("Fusion")
+    # app.setStyleSheet(qdarkstyle.load_stylesheet_pyqt6())
 
     base_path = os.path.dirname(__file__)
     app.setWindowIcon(QIcon(os.path.join(base_path, "src", "clock.png")))
