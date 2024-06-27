@@ -15,7 +15,7 @@ version = "1.1.9"
 
 
 def main():
-    logging.basicConfig(format="%(asctime)s %(levelname).4s: %(message)s", level="INFO")
+    logging.basicConfig(format = "%(asctime)s %(levelname).4s: %(message)s", level = "INFO")
 
     print(f"Welcome to {applicationName} V{version}")
 
@@ -29,8 +29,10 @@ def main():
 
     # sys.argv += ['-platform', 'windows:darkmode=2']
     app = QApplication(sys.argv)
-    logging.info(f"Available styles: {QStyleFactory.keys()}")
-    app.setStyle("Fusion")
+
+    available_styles = QStyleFactory.keys()
+    logging.info(f"Available styles: {available_styles}")
+    app.setStyle('Fusion')
     # app.setStyleSheet(qdarkstyle.load_stylesheet_pyqt6())
 
     base_path = os.path.dirname(__file__)
