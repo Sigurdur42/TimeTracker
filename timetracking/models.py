@@ -35,7 +35,7 @@ class ScopeSummary:
     scope: datetime
     working_seconds: int
     overtime_seconds: int
-    travel_start: Optional[datetime]
+    travel_start: Optional[datetime] = None
     travel_seconds: int = 0
     comment: str = None
 

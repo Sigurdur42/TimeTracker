@@ -11,6 +11,7 @@ appdata = "^2.2.1"
 pyqt6 = "^6.7.0"
 humanfriendly = "^10.0"
 codetiming = "^1.4.0"
+pytest = "^8.2.2"
 
 
 [build-system]
