@@ -24,6 +24,9 @@ jobs:
       - name: Install Dependencies using Poetry
         run: poetry install
 
+      - name: Build via poetry
+        run: poetry build
+
       - name: Run pytest
         run: poetry run python -m pytest -v tests/
             
