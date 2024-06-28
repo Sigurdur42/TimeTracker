@@ -1,0 +1,11 @@
+appdata==2.2.1
+codetiming==1.4.0
+humanfriendly==10.0
+iniconfig==2.0.0
+packaging==24.1
+pluggy==1.5.0
+PyQt6==6.7.0
+PyQt6-Qt6==6.7.1
+PyQt6-sip==13.6.0
+pytest==8.2.2
+
