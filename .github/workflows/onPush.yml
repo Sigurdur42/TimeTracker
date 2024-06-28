@@ -20,12 +20,9 @@ jobs:
       - name: Python Poetry Action
         uses: abatilo/actions-poetry@v3.0.0
        
-   
-
 
       - name: Install Dependencies using Poetry
         run: poetry install
-   
 
       - name: Run pytest
         run: PYTHONPATH=src/ poetry run python -m pytest -v --cov=src/ tests/
