@@ -1,13 +1,14 @@
+import logging
 import unittest
 
-from src.TimeAnalysis import TimeAnalysis
-from src.serializers import TimeRecordSerializer
+from timetracking.TimeAnalysis import TimeAnalysis
+from timetracking.serializers import TimeRecordSerializer
 
 
 class TimeAnalysisWithRealDataTests(unittest.TestCase):
     def setUp(self) -> None:
         serializer = TimeRecordSerializer()
-        self.loaded_data = serializer.read_from_csv_file("./TestData/DataFile.csv")
+        self.loaded_data = serializer.read_from_csv_file("./tests/TestData/DataFile.csv")
         self.target = TimeAnalysis(self.loaded_data)
 
     def test_verify_day_calculations(self):
@@ -76,9 +77,13 @@ class TimeAnalysisWithRealDataTests(unittest.TestCase):
     def __verify_day(
         self, day: str, expected_minutes: int, expected_overtime_minutes: int
     ):
-        wanted_day = [
+        found = [
             _ for _ in self.target.data_by_day if _.scope.strftime("%d.%m.%Y") == day
-        ][0]
+        ]
+        if len(found) == 0:
+            self.fail(f"Cannot find day {day} in \n{self.target.data_by_day}")
+
+        wanted_day = found[0]
         self.assertEqual(
             expected_minutes,
             wanted_day.working_seconds / 60,

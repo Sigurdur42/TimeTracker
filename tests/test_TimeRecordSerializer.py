@@ -1,8 +1,8 @@
 from typing import List
 import unittest
-from src.models import TimeRecord
+from timetracking.models import TimeRecord
 import os
-from src.serializers import TimeRecordSerializer
+from timetracking.serializers import TimeRecordSerializer
 import tempfile
 import uuid
 
@@ -41,14 +41,14 @@ class TimeTrackerTests(unittest.TestCase):
     def __generate_test_data() -> List[TimeRecord]:
         serializer = TimeRecordSerializer()
         data = [
-            "01.01.2020;8:30;12:00;;",
-            "01.01.2020;12:30;16:00;False;",
+            "01.01.2020;8:30;12:00;;;",
+            "01.01.2020;12:30;16:00;False;;",
 
-            "02.01.2020;8:00;12:00;True;with comment",
-            "02.01.2020;12:30;15:00;True;",
+            "02.01.2020;8:00;12:00;True;with comment;",
+            "02.01.2020;12:30;15:00;True;;",
 
-            "03.01.2020;8:00;12:00;;",
-            "03.01.2020;12:30;15:00;;",
+            "03.01.2020;8:00;12:00;;;",
+            "03.01.2020;12:30;15:00;;;",
         ]
         return serializer.read_csv_from_lines(data)
 

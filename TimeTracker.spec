@@ -5,10 +5,10 @@ block_cipher = None
 
 
 a = Analysis(
-    ['main.py'],
+    ['timetracking/main.py'],
     pathex=[],
-    binaries=[('src/MainWindow.ui', 'src/.')],
-    datas=[],
+    binaries=[],
+    datas=[('timetracking/MainWindow.ui', 'timetracking')],
     hiddenimports=[],
     hookspath=[],
     hooksconfig={},
@@ -37,7 +37,7 @@ exe = EXE(
     target_arch=None,
     codesign_identity=None,
     entitlements_file=None,
-    icon=['src\\clock.ico'],
+    icon=['timetracking\\clock.ico'],
 )
 coll = COLLECT(
     exe,

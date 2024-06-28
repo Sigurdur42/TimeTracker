@@ -1,17 +1,19 @@
 import logging
 import os
 
+from importlib import resources
+
 from PyQt6 import QtWidgets, uic
 from PyQt6.QtCore import Qt
 from PyQt6.QtCore import pyqtSlot
 from PyQt6.QtGui import QColor, QPalette, QIcon
 from PyQt6.QtWidgets import QTableWidgetItem, QFileDialog, QDialog, QMessageBox
 
-from src import Controller
-from src.models import TimeRecord, HumanReadable
+from timetracking import Controller
+from timetracking.models import TimeRecord, HumanReadable
 from humanfriendly import format_timespan
 from codetiming import Timer
-import pathlib
+
 
 class MainWindowQt(QtWidgets.QMainWindow):
     pushButtonDeleteRecord = None
@@ -21,15 +23,16 @@ class MainWindowQt(QtWidgets.QMainWindow):
     labelOvertimeSummary = None
     tableByMonth = None
     tableByDay = None
+    tableByDayCommented = None
+    tableByExcel = None
 
     def __init__(self, controller: Controller, version: str):
         # Call the inherited classes __init__ method
         super(MainWindowQt, self).__init__()
 
-        # Load the .ui file
-        script_directory = pathlib.Path(__file__).parent.resolve()
+        with resources.path(__package__, "MainWindow.ui") as f:
+            uic.loadUi(f.open('rb'), self)
 
-        uic.loadUi(f"{script_directory}/MainWindow.ui", self)
         logging.info("Loaded main window...")
         self.setWindowTitle(f"Time Tracker V{version}")
 
@@ -49,7 +52,7 @@ class MainWindowQt(QtWidgets.QMainWindow):
         self.show()
         # print(QColor.colorNames())
 
-    @pyqtSlot(name="on_tableByRecord_itemSelectionChanged")
+    @pyqtSlot(name = "on_tableByRecord_itemSelectionChanged")
     def __by_record_item_changed(self):
         current_row = self.tableByRecord.currentRow()
         internal_id_widget = self.tableByRecord.item(current_row, 6)
@@ -71,29 +74,30 @@ class MainWindowQt(QtWidgets.QMainWindow):
             self.pushButtonDeleteRecord.setEnabled(False)
             logging.debug(f"Selected no record.")
 
-    @pyqtSlot(name="on_pushButtonNewRecord_clicked")
+    @pyqtSlot(name = "on_pushButtonNewRecord_clicked")
     def __on_new_record(self):
         from datetime import datetime
 
         model = TimeRecord(
-            internal_id=len(self.__controller.time_analysis.raw_data),
-            start=datetime.now(),
-            end=datetime.now(),
-            all_overtime=False,
-            comment=None,
+            internal_id = len(self.__controller.time_analysis.raw_data),
+            start = datetime.now(),
+            end = datetime.now(),
+            all_overtime = False,
+            travel = False,
+            comment = None,
         )
 
         if self.__show_edit_record_dialog(model):
             self.__controller.add_record(model, self.__controller.last_data_file)
             self.__set_data()
 
-    @pyqtSlot(name="on_pushButtonEdit_clicked")
+    @pyqtSlot(name = "on_pushButtonEdit_clicked")
     def __on_edit_record(self):
         if self.__show_edit_record_dialog(self.selected_raw_data):
             self.__controller.record_has_been_updated()
             self.__set_data()
 
-    @pyqtSlot(name="on_pushButtonDeleteRecord_clicked")
+    @pyqtSlot(name = "on_pushButtonDeleteRecord_clicked")
     def __on_delete_record(self):
         message_box = QMessageBox()
         message_box.setIcon(QMessageBox.Icon.Question)
@@ -107,16 +111,16 @@ class MainWindowQt(QtWidgets.QMainWindow):
             self.__set_data()
 
     def __show_edit_record_dialog(self, model: TimeRecord) -> bool:
-        from src.EditRecordDialog import EditRecordDialog
+        from timetracking.EditRecordDialog import EditRecordDialog
 
         logging.info(f"Shall edit record {model}...")
         dialog = EditRecordDialog(self, model)
         return dialog.exec() == QDialog.DialogCode.Accepted
 
-    @pyqtSlot(name="on_buttonOpenFilePicker_clicked")
+    @pyqtSlot(name = "on_buttonOpenFilePicker_clicked")
     def __select_file_via_picker(self):
         picker = QFileDialog(
-            self, caption="Select data file", filter="Data files (*.csv)"
+            self, caption = "Select data file", filter = "Data files (*.csv)"
         )
         if picker.exec():
             file_name = picker.selectedFiles()[0]
@@ -156,6 +160,8 @@ class MainWindowQt(QtWidgets.QMainWindow):
         )
         self.fill_table_with_raw_data(self.tableByRecord, data.raw_data)
         self.fill_day_comment_table(self.tableByDayCommented, data.data_by_day_by_topic)
+        self.fill_timesheet_table(self.tableByExcel, data.data_for_timesheet)
+        # fill
 
         logging.info("data successfully set to ui...")
 
@@ -169,16 +175,16 @@ class MainWindowQt(QtWidgets.QMainWindow):
     @staticmethod
     def fill_table(table, data, scope_accessor, scope_label: str):
         with Timer(
-            initial_text=f"fill_table({scope_label})",
-            text=lambda secs: f"set data {scope_label} in {format_timespan(secs)}",
-            logger=logging.info,
+                initial_text = f"fill_table({scope_label})",
+                text = lambda secs: f"set data {scope_label} in {format_timespan(secs)}",
+                logger = logging.info,
         ):
-            table.setColumnCount(3)
-            table.setHorizontalHeaderLabels([scope_label, "Hours", "Overt."])
+            table.setColumnCount(4)
+            table.setHorizontalHeaderLabels([scope_label, "Hours", 'Travel', "Overt."])
 
             table.setRowCount(len(data))
             for index, (item) in enumerate(
-                sorted(data, key=lambda _: _.scope, reverse=True)
+                    sorted(data, key = lambda _: _.scope, reverse = True)
             ):
                 item_scope = QTableWidgetItem()
                 item_scope.setText(scope_accessor(item))
@@ -187,11 +193,19 @@ class MainWindowQt(QtWidgets.QMainWindow):
                 working_seconds = HumanReadable.seconds_to_human_readable(
                     item.working_seconds
                 )
-                # working_decimal = HumanReadable.seconds_to_decimal_display(
-                #     item.working_seconds
-                # )
+
                 item_worked.setText(f"{working_seconds}")
                 item_worked.setTextAlignment(
+                    Qt.AlignmentFlag.AlignCenter | Qt.AlignmentFlag.AlignVCenter
+                )
+
+                item_travel = QTableWidgetItem()
+                travel_seconds = HumanReadable.seconds_to_human_readable(
+                    item.travel_seconds
+                )
+
+                item_travel.setText(f"{travel_seconds}")
+                item_travel.setTextAlignment(
                     Qt.AlignmentFlag.AlignCenter | Qt.AlignmentFlag.AlignVCenter
                 )
 
@@ -209,16 +223,17 @@ class MainWindowQt(QtWidgets.QMainWindow):
                 # item_color.setBackground(get_rgb_from_hex(code))
                 table.setItem(index, 0, item_scope)
                 table.setItem(index, 1, item_worked)
-                table.setItem(index, 2, item_overtime)
+                table.setItem(index, 2, item_travel)
+                table.setItem(index, 3, item_overtime)
 
             table.resizeColumnsToContents()
 
     @staticmethod
     def fill_day_comment_table(table, data):
         with Timer(
-            initial_text=f"fill_table_with_raw_data()",
-            text=lambda secs: f"fill_table_with_raw_data() set data in {format_timespan(secs)}",
-            logger=logging.info,
+                initial_text = f"fill_table_with_raw_data()",
+                text = lambda secs: f"fill_table_with_raw_data() set data in {format_timespan(secs)}",
+                logger = logging.info,
         ):
             labels = ["Date", "Duration", "Comment"]
             table.setColumnCount(len(labels))
@@ -226,7 +241,7 @@ class MainWindowQt(QtWidgets.QMainWindow):
 
             table.setRowCount(len(data))
             for index, (item) in enumerate(
-                sorted(data, key=lambda _: _.scope, reverse=True)
+                    sorted(data, key = lambda _: _.scope, reverse = True)
             ):
                 item_scope = QTableWidgetItem()
                 item_scope.setText(item.scope_as_day())
@@ -256,11 +271,68 @@ class MainWindowQt(QtWidgets.QMainWindow):
             table.resizeColumnsToContents()
 
     @staticmethod
+    def fill_timesheet_table(table, data):
+        with Timer(
+                initial_text = f"fill_timesheet_table()",
+                text = lambda secs: f"fill_timesheet_table() set data in {format_timespan(secs)}",
+                logger = logging.info,
+        ):
+            labels = ["Date", "Start", "End", "Pause", "Travel Start", "Travel End"]
+            table.setColumnCount(len(labels))
+            table.setHorizontalHeaderLabels(labels)
+
+            table.setRowCount(len(data))
+            for index, (item) in enumerate(
+                    sorted(data, key = lambda _: _.scope, reverse = True)
+            ):
+                item_scope = QTableWidgetItem()
+                item_scope.setText(item.scope_as_day())
+
+                item_start = QTableWidgetItem()
+                item_start.setText(item.start)
+                item_start.setTextAlignment(
+                    Qt.AlignmentFlag.AlignRight | Qt.AlignmentFlag.AlignVCenter
+                )
+
+                item_end = QTableWidgetItem()
+                item_end.setText(item.end)
+                item_end.setTextAlignment(
+                    Qt.AlignmentFlag.AlignRight | Qt.AlignmentFlag.AlignVCenter
+                )
+
+                item_pause = QTableWidgetItem()
+                item_pause.setText(item.pause)
+                item_pause.setTextAlignment(
+                    Qt.AlignmentFlag.AlignRight | Qt.AlignmentFlag.AlignVCenter
+                )
+
+                item_travel_start = QTableWidgetItem()
+                item_travel_start.setText(item.travel_start)
+                item_travel_start.setTextAlignment(
+                    Qt.AlignmentFlag.AlignRight | Qt.AlignmentFlag.AlignVCenter
+                )
+
+                item_travel_end = QTableWidgetItem()
+                item_travel_end.setText(item.travel_end)
+                item_travel_end.setTextAlignment(
+                    Qt.AlignmentFlag.AlignRight | Qt.AlignmentFlag.AlignVCenter
+                )
+
+                table.setItem(index, 0, item_scope)
+                table.setItem(index, 1, item_start)
+                table.setItem(index, 2, item_end)
+                table.setItem(index, 3, item_pause)
+                table.setItem(index, 4, item_travel_start)
+                table.setItem(index, 5, item_travel_end)
+
+            table.resizeColumnsToContents()
+
+    @staticmethod
     def fill_table_with_raw_data(table, data):
         with Timer(
-            initial_text=f"fill_table_with_raw_data()",
-            text=lambda secs: f"fill_table_with_raw_data() set data in {format_timespan(secs)}",
-            logger=logging.info,
+                initial_text = f"fill_table_with_raw_data()",
+                text = lambda secs: f"fill_table_with_raw_data() set data in {format_timespan(secs)}",
+                logger = logging.info,
         ):
             labels = ["Date", "Start", "End", "Duration", "Comment", "OT", "Id"]
             table.setColumnCount(len(labels))
@@ -268,7 +340,7 @@ class MainWindowQt(QtWidgets.QMainWindow):
 
             table.setRowCount(len(data))
             for index, (item) in enumerate(
-                sorted(data, key=lambda _: _.start, reverse=True)
+                    sorted(data, key = lambda _: _.start, reverse = True)
             ):
                 item_scope = QTableWidgetItem()
                 item_scope.setText(item.scope_as_day())

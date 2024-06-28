@@ -1,7 +1,7 @@
 import unittest
 from datetime import datetime
 
-from src.models import ScopeSummary
+from timetracking.models import ScopeSummary
 
 
 class ScopeSummaryTests(unittest.TestCase):

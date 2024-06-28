@@ -20,22 +20,15 @@ jobs:
       - name: Python Poetry Action
         uses: abatilo/actions-poetry@v3.0.0
        
-      - name: Cache Poetry virtualenv
-        uses: actions/cache@v1
-        id: cache
-        with:
-          path: ~/.virtualenvs
-          key: poetry-$
-          restore-keys: |
-            poetry-$            
-
 
       - name: Install Dependencies using Poetry
         run: poetry install
-        if: steps.cache.outputs.cache-hit != 'true'
+
+      - name: Build via poetry
+        run: poetry build
 
       - name: Run pytest
-        run: PYTHONPATH=src/ poetry run python -m pytest -v --cov=src/ tests/
+        run: poetry run python -m pytest -v tests/
             
 #      - name: Install dependencies
 #        run: |
@@ -48,6 +41,3 @@ jobs:
 #          ruff --format=github --select=E9,F63,F7,F82 --target-version=py37 .
 #          # default set of ruff rules with GitHub Annotations
 #          ruff --format=github --target-version=py37 .
-      - name: Test with pytest
-        run: |
-          pytest

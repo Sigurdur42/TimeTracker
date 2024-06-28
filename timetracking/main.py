@@ -6,16 +6,16 @@ from PyQt6.QtWidgets import QApplication, QStyleFactory
 from appdata import AppDataPaths
 from PyQt6.QtGui import QIcon
 
-from src.BetterConfigParser import BetterConfigParser
-from src.Controller import Controller
-from src.MainWindowQt import MainWindowQt
+from timetracking.BetterConfigParser import BetterConfigParser
+from timetracking.Controller import Controller
+from timetracking.MainWindowQt import MainWindowQt
 
 applicationName = "TimeTracker"
-version = "1.1.8"
+version = "1.1.9"
 
 
 def main():
-    logging.basicConfig(format="%(asctime)s %(levelname).4s: %(message)s", level="INFO")
+    logging.basicConfig(format = "%(asctime)s %(levelname).4s: %(message)s", level = "INFO")
 
     print(f"Welcome to {applicationName} V{version}")
 
@@ -27,10 +27,13 @@ def main():
     config = BetterConfigParser(app_paths.config_path)
     controller = Controller(config, app_paths)
 
-    # QT variant
+    # sys.argv += ['-platform', 'windows:darkmode=2']
     app = QApplication(sys.argv)
-    logging.info(f"Available styles: {QStyleFactory.keys()}")
-    app.setStyle("Fusion")
+
+    available_styles = QStyleFactory.keys()
+    logging.info(f"Available styles: {available_styles}")
+    app.setStyle('Fusion')
+    # app.setStyleSheet(qdarkstyle.load_stylesheet_pyqt6())
 
     base_path = os.path.dirname(__file__)
     app.setWindowIcon(QIcon(os.path.join(base_path, "src", "clock.png")))
