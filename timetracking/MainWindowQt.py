@@ -37,7 +37,8 @@ class MainWindowQt(QtWidgets.QMainWindow):
         self.setWindowTitle(f"Time Tracker V{version}")
 
         base_path = os.path.dirname(__file__)
-        self.setWindowIcon(QIcon(os.path.join(base_path, "clock.png")))
+        icon_path = os.path.join(base_path, "clock.png")
+        self.setWindowIcon(QIcon(icon_path))
 
         self.editOpenedFile.setAlignment(
             Qt.AlignmentFlag.AlignVCenter | Qt.AlignmentFlag.AlignLeft
