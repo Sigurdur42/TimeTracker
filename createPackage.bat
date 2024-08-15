@@ -1,11 +1,31 @@
-pip install -r requirements.txt
-pyinstaller .\TimeTracker.spec --noconfirm
-If exist ".\dist\TimeTracker\src" ( 
-    Echo "dist\src already exists"
-) Else ( 
-    Echo "creating ui folder"
-    mkdir ".\dist\TimeTracker\src"
+echo off
+poetry install
+if %ERRORLEVEL% == 0 (
+	echo "successfully installed poetry dependencies"
+) else (
+  echo "poetry install failed" 
+  cmd /c exit %errorlevel%
+  goto END
 )
-copy .\src\*.ui .\dist\TimeTracker\src
-copy .\src\*.ico .\dist\TimeTracker\src
-copy .\src\*.png .\dist\TimeTracker\src
+
+poetry build
+if %ERRORLEVEL% == 0 (
+	echo "successfully called poetry build"
+) else (
+  echo "poetry build failed" 
+  cmd /c exit %errorlevel%
+  goto END
+)
+
+pyinstaller ./TimeTracker.spec --noconfirm
+if %ERRORLEVEL% EQU 0 (
+	echo "successfully build using pyinstaller"
+) else (
+  echo "pyinstaller build failed" 
+  cmd /c exit %errorlevel%
+  goto END
+)
+
+cmd /c exit 0
+
+:END
